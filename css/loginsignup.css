@@ -15,6 +15,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center; /* Center content vertically and horizontally */
+    position: relative; /* Set body as relative for proper positioning of inner elements */
 }
 
 /* Header */
@@ -28,12 +29,33 @@ header {
     position: absolute;
     width: 100%;
     top: 0;
+    z-index: 1; /* Ensure header stays above the background image */
 }
 
 header .logo {
     font-size: 24px;
     font-weight: bold;
     color: #5e2483; /* Purple shade for the logo text */
+    width: 150px; /* Adjust width as needed */
+    height: 50px; /* Adjust height as needed */
+    background: url('../assets/LogoHeader.png') no-repeat center center;
+    background-size: contain; /* Ensures the image fits within the div */
+}
+
+/* Add the image behind the main content */
+main .background-image {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%; /* Adjust width to make the image smaller */
+    height: auto; /* Let the height scale automatically */
+    z-index: -1; /* Make sure it stays behind the content */
+}
+
+main .background-image img {
+    width: 100%;
+    height: auto;
 }
 
 /* Auth Container */
@@ -41,13 +63,15 @@ header .logo {
     max-width: 500px; /* Slightly wider container */
     width: 100%;
     padding: 20px; /* Padding remains the same */
-    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white background */
+    background-color: rgba(255, 255, 255, 0.5);
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px); /* Optional: adds a slight blur effect behind the container */
     display: flex;
     flex-direction: column;
     gap: 20px; /* Added gap between form elements */
+    position: relative; /* Ensure the form stays above the background image */
+    backdrop-filter: blur(5px);
 }
 
 /* Heading */

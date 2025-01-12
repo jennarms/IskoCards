@@ -21,12 +21,14 @@ header {
     padding: 10px 20px;
     background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent for better readability */
     border-bottom: 1px solid #ddd;
+    width: 100%; /* Full width */
 }
 
 header .logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #5e2483; /* Purple shade for the logo text */
+    width: 150px; /* Adjust width as needed */
+    height: 50px; /* Adjust height as needed */
+    background: url('../assets/LogoHeader.png') no-repeat center center;
+    background-size: contain; /* Ensures the image fits within the div */
 }
 
 header nav {
@@ -34,65 +36,65 @@ header nav {
     gap: 10px;
 }
 
-header .login-btn {
+header .login-btn, header .signup-btn {
     display: inline-block;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+header .login-btn {
     background-color: white;
     color: #5e2483;
     border: 2px solid #5e2483;
     text-decoration: none;
-    padding: 5px 15px;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
-.login-btn:hover {
-    background-color:  #5e2483;
+header .login-btn:hover {
+    background-color: #5e2483;
     color: white;
 }
 
 header .signup-btn {
-    display: inline-block;
     background-color: #fdd835; /* Yellow */
     color: #5e2483;
     border: none;
     text-decoration: none;
-    padding: 5px 15px;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    text-align: center;
-    transition: background-color 0.3s ease;
 }
 
-.signup-btn:hover {
+header .signup-btn:hover {
     background-color: #e6c700; /* Darker shade on hover */
 }
 
 /* Hero Section */
-main .hero {
+main {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Align content to the left */
-    justify-content: center; /* Vertically center the content */
-    text-align: left; /* Ensure text is left-aligned */
-    padding: 50px 20px;
-    width: 50%; /* Take up half the width of the viewport */
+    justify-content: space-between; /* Space between text and image */
+    align-items: center;
+    width: 100%; /* Full width of the viewport */
     height: 80vh; /* Occupy most of the viewport height */
-    margin-left: 100px; /* Add space from the left edge */
-    position: relative; /* Ensure it's positioned properly without overlapping */
+    padding: 20px;
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    padding-left: 100px;
+}
+
+main .hero {
+    flex: 1 1 50%; /* Takes up 50% of the width, but can shrink */
+    padding-right: 10px;
+     /* Optional padding to add space between the text and image */
 }
 
 main .hero h1 {
-    font-size: 60px;
+    font-size: 3.3vw;
     font-weight: bold;
     color: #333;
     margin-bottom: 20px;
 }
 
 main .hero p {
-    font-size: 18px;
+    font-size: 1.1vw;
     color: #555;
     margin-bottom: 30px;
     max-width: 600px;
@@ -106,14 +108,53 @@ main .hero .signup-main-btn {
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 1vw;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 main .hero .signup-main-btn:hover {
-    background-color:#5e2483;
+    background-color: #5e2483;
     color: #fdd835;
 }
 
+.hero-image {
+    flex: 1 1 50%; /* Takes up 50% of the width, but can shrink */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-image img {
+    width: 100%; /* Ensure the image scales with the container */
+    max-width: 600px;
+    height: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Scale the image proportionally */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    main {
+        flex-direction: column; /* Stack the hero and image vertically on smaller screens */
+        height: auto; /* Adjust height to fit content */
+    }
+
+    main .hero, .hero-image {
+        flex: 1 1 100%; /* Take up full width */
+        margin-left: 0; /* Remove margin on smaller screens */
+        padding-right: 0;
+    }
+
+    main .hero h1 {
+        font-size: 6vw; /* Adjust font size for smaller screens */
+    }
+
+    main .hero p {
+        font-size: 4vw; /* Adjust font size for smaller screens */
+    }
+
+    .hero-image img {
+        max-width: 100%; /* Ensure image takes up full width on small screens */
+    }
+}

@@ -1,0 +1,41 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background: url('../assets/background.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #333; /* Ensures text is readable over the background */
+    height: 100vh; /* Full height for the page */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center content vertically and horizontally */
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+    position: absolute;
+    width: 100%;
+    top: 0;
+}
+
+header .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #5e2483; /* Purple shade for the logo text */
+    width: 150px; /* Adjust width as needed */
+    height: 50px; /* Adjust height as needed */
+    background: url('../assets/LogoHeader.png') no-repeat center center;
+    background-size: contain; /* Ensures the image fits within the div */
+}
