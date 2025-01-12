@@ -6,9 +6,5 @@
 
 -Anhelov B. Samia
 
--Tommy M. Piñon
-
--Lucky P. Silo
-
 
 
