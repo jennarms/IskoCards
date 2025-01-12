@@ -1,0 +1,106 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background: url('../assets/background.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #333; /* Ensures text is readable over the background */
+    height: 100vh; /* Full height for the page */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center content vertically and horizontally */
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent for better readability */
+    border-bottom: 1px solid #ddd;
+    position: absolute;
+    width: 100%;
+    top: 0;
+}
+
+header .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #5e2483; /* Purple shade for the logo text */
+}
+
+/* Auth Container */
+.auth-container {
+    max-width: 500px; /* Slightly wider container */
+    width: 100%;
+    padding: 20px; /* Padding remains the same */
+    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white background */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px); /* Optional: adds a slight blur effect behind the container */
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Added gap between form elements */
+}
+
+/* Heading */
+.auth-container h1 {
+    text-align: center;
+    margin-bottom: 20px; /* Adjusted for better spacing */
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.form-group input {
+    width: 100%; /* Inputs take full width */
+    padding: 8px; /* Reduced padding for thinner fields */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Button Styles */
+button, .login-btn, .signup-btn {
+    width: 100%; /* Buttons take full width */
+    padding: 10px; /* Reduced padding for thinner buttons */
+    background-color: #fdd835;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover, .login-btn:hover, .signup-btn:hover {
+    background-color: #e6c700;
+}
+
+/* Links */
+p {
+    text-align: center;
+}
+
+p a {
+    color: #5e2483;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
