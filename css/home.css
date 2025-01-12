@@ -15,6 +15,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center; /* Center content vertically and horizontally */
+    position: relative; /* Set body as relative for proper positioning of inner elements */
 }
 
 /* Header */
@@ -22,20 +23,160 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-    background-color: white;
+    padding: 5px 15px;
+    background-color: white; /* Semi-transparent for better readability */
     border-bottom: 1px solid #ddd;
     position: absolute;
     width: 100%;
     top: 0;
+    z-index: 1; /* Ensure header stays above the background image */
 }
 
-header .logo {
-    font-size: 24px;
+header .header-actions img.profile-pic {
+    width: 45px; /* Increase size */
+    height: 45px; /* Keep it square */
+    object-fit: cover; /* Ensure the image doesn't stretch */
+    border-radius: 50%; /* Make it round */
+}
+
+
+header .search-bar input {
+    padding: 5px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    width: 200px;
+}
+
+header .buttons {
+    display: flex;
+    gap: 10px;
+}
+
+header .buttons button {
+    padding: 10px;
+    background-color: #fdd835;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+header .buttons button:hover {
+    background-color: #e6c700;
+}
+
+/* Dashboard Sidebar */
+.dashboard {
+    display: none;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    background-color: white;
+    width: 250px;
+    height: calc(100vh - 60px);
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.dashboard.active {
+    display: block;
+}
+
+.dashboard .profile-info {
+    text-align: center;
+}
+
+.dashboard .user-info img.profile-pic {
+    width: 100px; /* Larger size for the dashboard */
+    height: 100px; /* Keep it square */
+    object-fit: cover; /* Ensure the image doesn't stretch */
+    border-radius: 50%; /* Make it round */
+}
+
+.dashboard .profile-info p {
+    margin: 5px 0;
+}
+
+.dashboard .edit-account {
+    background-color: #fdd835;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.dashboard .edit-account:hover {
+    background-color: #e6c700;
+}
+
+.dashboard .logout-btn {
+    background-color: #f44336;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.dashboard .logout-btn:hover {
+    background-color: #d32f2f;
+}
+
+/* Main Content */
+.main-content {
+    margin-top: 80px;
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.main-content h1 {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.main-content .folders-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.folder {
+    width: 200px;
+    height: 200px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    cursor: pointer;
+}
+
+.folder:hover {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.folder button {
+    margin-top: 10px;
+    padding: 5px;
+    background-color: #f44336;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.folder button:hover {
+    background-color: #d32f2f;
+}
+
+.folder .folder-name {
+    font-size: 18px;
     font-weight: bold;
-    color: #5e2483; /* Purple shade for the logo text */
-    width: 150px; /* Adjust width as needed */
-    height: 50px; /* Adjust height as needed */
-    background: url('../assets/LogoHeader.png') no-repeat center center;
-    background-size: contain; /* Ensures the image fits within the div */
 }
