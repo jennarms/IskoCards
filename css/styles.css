@@ -58,14 +58,15 @@ header .login-btn:hover {
 }
 
 header .signup-btn {
-    background-color: #fdd835; /* Yellow */
+    background-color: #eecf82; /* Yellow */
     color: #5e2483;
     border: none;
     text-decoration: none;
 }
 
 header .signup-btn:hover {
-    background-color: #e6c700; /* Darker shade on hover */
+    background-color: #5e2483;
+    color: #eecf82;
 }
 
 /* Hero Section */
@@ -103,7 +104,7 @@ main .hero p {
 main .hero .signup-main-btn {
     display: inline-block;
     text-decoration: none;
-    background-color: #fdd835;
+    background-color: #eecf82;
     color: #5e2483;
     border: none;
     padding: 10px 20px;
@@ -116,7 +117,7 @@ main .hero .signup-main-btn {
 
 main .hero .signup-main-btn:hover {
     background-color: #5e2483;
-    color: #fdd835;
+    color: #eecf82;
 }
 
 .hero-image {

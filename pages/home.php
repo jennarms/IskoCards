@@ -60,7 +60,7 @@ unset($_SESSION['error']);
         </div>
         <div class="bottom-links">
             <a href="privacy_policy.php">Privacy Policy</a>
-            <a href="about.php">About Website</a>
+            <a href="javascript:void(0);" onclick="notifyComingSoon()">About Website</a>
         </div>
     </div>
 
@@ -183,6 +183,10 @@ unset($_SESSION['error']);
         function closeAllModals() {
             document.getElementById('editModal').style.display = 'none';
             document.getElementById('logoutModal').style.display = 'none';
+        }
+
+        function notifyComingSoon() {
+        alert("Coming Soon!");
         }
 
         // Check if there's an error or success message in session and open modal accordingly

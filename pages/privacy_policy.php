@@ -32,7 +32,7 @@
             max-width: 800px;
             width: 100%;
             text-align: left;
-            border: 1px solid #fdd835;
+            border: 1px solid #eecf82;
         }
 
         .privacy-policy-container h1 {
@@ -73,7 +73,7 @@
         .privacy-policy-container ul li::before {
             content: "•";
             font-size: 18px;
-            color: #fdd835;
+            color: #eecf82;
             position: absolute;
             left: 0;
             top: 0;
@@ -83,8 +83,8 @@
             display: inline-block;
             margin-top: 30px;
             padding: 10px 20px;
-            background-color: #fdd835;
-            color: #fff;
+            background-color: #eecf82;
+            color: #000;
             text-decoration: none;
             border-radius: 5px;
             font-weight: bold;
@@ -93,6 +93,7 @@
 
         .privacy-policy-container a:hover {
             background-color: #5e2483;
+            color: #fff;
         }
     </style>
 </head>
