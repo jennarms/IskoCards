@@ -185,6 +185,16 @@ unset($_SESSION['error']);
             document.getElementById('logoutModal').style.display = 'none';
         }
 
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const profilePic = document.querySelector('.profile-pic');
+
+            profilePic.addEventListener('click', () => {
+                profilePic.classList.toggle('active');
+            });
+        });
+
+
         function notifyComingSoon() {
         alert("Coming Soon!");
         }

@@ -40,6 +40,20 @@ header .header-actions img.profile-pic {
     cursor: pointer;
 }
 
+/* Profile Picture Hover Effect */
+header .header-actions img.profile-pic:hover {
+    transform: scale(1.1); /* Slight zoom effect */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a shadow */
+}
+
+/* When Clicked - Example Active State */
+header .header-actions img.profile-pic.active {
+    transform: scale(1.2); /* Larger zoom effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+}
+
+
 /* Dashboard Sidebar */
 #dashboard {
     display: none;

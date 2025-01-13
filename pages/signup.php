@@ -49,7 +49,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
   <header>
-    <div class="logo"></div>
+    <a href="../index.php">
+      <div class="logo"></div>
+    </a>
   </header>
 
   <main>
