@@ -12,12 +12,12 @@
 
 ## Progress Overview:
 
-### 1. Database Structure:
+### Database Structure:
 - **User Account**:
   - **Login**
   - **Create Account**
 
-### 2. Dashboard:
+### Dashboard:
 - **View Account**
 - **Edit Account**:
   - **Change Profile Picture**
@@ -25,16 +25,16 @@
   - **Edit Username**
 - **Logout**
 
-### 3. Folder Management:
+### Folder Management:
 - **Create Folder**
 - **Edit Folder**
 - **Delete Folder**
 - **Link to Flashcards Webpage**
 
-### 4. Flashcard:
+### Flashcard:
 - **Ongoing Development**
 
-### 5. Admin Account:
+### Admin Account:
 - **UI Developed** (Still up for further development)
 
 ---
