@@ -13,26 +13,24 @@
 ## Progress Overview:
 
 ### Database Structure:
-- **User Account**:
-  - **Login**
-  - **Create Account**
 
-### Dashboard:
-- **View Account**
-- **Edit Account**:
-  - **Change Profile Picture**
-  - **Edit Name**
-  - **Edit Username**
-- **Logout**
-
-### Folder Management:
-- **Create Folder**
-- **Edit Folder**
-- **Delete Folder**
-- **Link to Flashcards Webpage**
-
-### Flashcard:
-- **Ongoing Development**
+### **User Account**:
+- **Login**
+- **Create Account**
+- **Dashboard:**
+    - **View Account**
+    - **Edit Account**:
+        - **Change Profile Picture**
+        - **Edit Name**
+        - **Edit Username**
+    - **Logout**
+- **Folder Management**
+    - **Create Folder**
+    - **Edit Folder**
+    - **Delete Folder**
+    - **Link to Flashcards Webpage**
+- **Flashcard**
+    - **Ongoing Development**
 
 ### Admin Account:
 - **UI Developed** (Still up for further development)
