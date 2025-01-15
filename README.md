@@ -1,5 +1,3 @@
-# IskoCards
-
 ![IskoCards Logo](https://github.com/jennarms/IskoCards/blob/main/assets/LogoHeader.png)
 
 ## Group 3 Members
