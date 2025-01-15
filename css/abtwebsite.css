@@ -1,0 +1,108 @@
+/* General Body Settings */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('../assets/Background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: #333;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Container for Main Content */
+.container {
+    width: 90%;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(209, 196, 233, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    padding-bottom: 60px;
+}
+
+/* Title Box */
+.title-box {
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.title-box h1 {
+    font-size: 2.8em;
+    color: #4A148C; /* Dark Violet */
+    display: inline-block; /* Allows centering and width adjustment */
+    position: relative;
+    margin-bottom: 10px; /* Adds space below the title */
+}
+
+.title-box h1::after {
+    content: "";
+    display: block;
+    width: 75%; /* Adjust the width of the line (shorter line) */
+    height: 2px; /* Line thickness */
+    background-color: #4A148C; /* Line color matching the title */
+    margin: 5px auto 0; /* Center the line and adjust spacing above it */
+}
+
+.logo {
+    width: 200px; /* Adjust the width of the logo */
+    height: auto;
+    display: block;
+    margin: 0 auto 10px auto; /* Center the logo and add spacing below it */
+}
+
+/* Styling for Text Boxes */
+.text-box {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    border: 2px solid #FFFF00; /* Yellow border */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Text Styling */
+h2 {
+    font-size: 1.8em;
+    color: #6A1B9A;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+p, ul li {
+    font-size: 1.1em;
+    color: #555;
+}
+
+/* Home Button Styling */
+.home-btn-container {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.home-btn {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 10px 20px;
+    background-color: #5e2483;
+    color: #eecf82;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.home-btn:hover {
+    background-color:  #eecf82;
+    color: #5e2483;
+}
