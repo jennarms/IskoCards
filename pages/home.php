@@ -132,6 +132,10 @@ unset($_SESSION['success'], $_SESSION['error']);
             </div>
 
             <!-- Display success or error message -->
+            <div id="alertMessage" 
+                data-success-message="<?php echo htmlspecialchars($success_message); ?>" 
+                data-error-message="<?php echo htmlspecialchars($error_message); ?>"></div>
+
             <?php if ($success_message): ?>
                 <p style="color: green;"><?php echo $success_message; ?></p>
             <?php endif; ?>
@@ -139,6 +143,7 @@ unset($_SESSION['success'], $_SESSION['error']);
             <?php if ($error_message): ?>
                 <p style="color: red;"><?php echo $error_message; ?></p>
             <?php endif; ?>
+
 
             <div class="modal-footer">
                 <button onclick="closeEditModal()">Close</button>
@@ -238,11 +243,30 @@ unset($_SESSION['success'], $_SESSION['error']);
         document.getElementById('editModal').style.display = 'flex';
     }
 
+    function closeEditModal() {
+    document.getElementById('editModal').style.display = 'none';
+    }
+
     function closeEditFolderModal() {
     setTimeout(() => {
         document.getElementById('edit-folder-modal').style.display = 'none';
     }, 500); // Close after 0.5 seconds
     }
+
+    // Function to check and show the alert based on the message
+    document.addEventListener('DOMContentLoaded', function () {
+        const alertMessage = document.getElementById('alertMessage');
+        
+        const successMessage = alertMessage.getAttribute('data-success-message');
+        const errorMessage = alertMessage.getAttribute('data-error-message');
+
+        if (successMessage) {
+            showAlert('Success', successMessage, 'success');
+        } else if (errorMessage) {
+            showAlert('Error', errorMessage, 'error');
+        }
+    });
+    
 
     function openLogoutModal() {
         closeAllModals(); // Close all modals before opening the logout modal
@@ -450,10 +474,6 @@ function showAlert(title, message, type = 'success') {
 
     // Close the modal when the user clicks the cancel button
     document.querySelector('.cancel').addEventListener('click', closeAddFolderModal);
-
-    function notifyComingSoon() {
-        showAlert("Coming Soon!");
-    }
 
     // Check if there's an error or success message in session and open modal accordingly
     window.onload = function() {

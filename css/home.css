@@ -223,24 +223,21 @@ header .header-actions img.profile-pic.active {
 }
 
 .modal-header {
-    font-size: 20px; /* Slightly smaller header font */
+    font-size: 20px;
     margin-bottom: 15px;
     font-weight: bold;
     color: #333;
 }
 
-.modal-footer {
-    margin-top: 15px; 
-}
-
+/* Input and button styles for forms */
 .modal input,
 .modal button {
-    width: 90%; 
+    width: 90%;
     padding: 10px;
     margin: 10px 0;
-    border-radius: 4px; /* Slightly smaller radius */
+    border-radius: 4px;
     border: 1px solid #ddd;
-    font-size: 14px; /* Slightly smaller font */
+    font-size: 14px;
 }
 
 .modal input {
@@ -260,15 +257,32 @@ header .header-actions img.profile-pic.active {
     color: black;
 }
 
+.modal-footer {
+    display: flex; 
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    width: 100%; 
+    margin-top: 15px;
+    padding: 0; /* Remove any unintended padding */
+}
+
 /* Close button */
 .modal-footer button {
     background-color: #f44336;
     color: white;
-    font-weight: normal;
+    font-weight: bold;
+    padding: 10px 20px; /* Keep this padding for better appearance */
+    border: none;
+    cursor: pointer;
+    display: flex; /* Ensure it is treated as a flex item */
+    align-items: center; /* Vertically align content */
+    justify-content: center; /* Horizontally align content */
+    margin: 0 auto; /* Ensure it centers within the container */
+    width: auto; /* Allow content-based width */
 }
-
 .modal-footer button:hover {
     background-color: #e53935;
+    color: white;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Adds a subtle shadow */
     transform: translateY(-2px); /* Lifts the button slightly */
     transition: all 0.3s ease; /* Smooth transition */
@@ -685,7 +699,6 @@ button.cancel, button.confirm {
     top: 20px; /* Adjusted to give some space from the top */
     left: 50%;
     transform: translateX(-50%);
-    background-color: #a1e3b7; /* Pastel Green */
     color: #333;
     padding: 20px 25px;
     border-radius: 12px; /* Rounded corners for a softer look */

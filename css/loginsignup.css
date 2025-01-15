@@ -131,3 +131,58 @@ p a {
 p a:hover {
     text-decoration: underline;
 }
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 20px; /* Adjusted to give some space from the top */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f8b0b0;
+    color: #333; /* Text color */
+    padding: 20px 25px;
+    border-radius: 12px; /* Rounded corners for a softer look */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Softer shadow */
+    z-index: 9999;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100%;
+    max-width: 600px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Modal Header */
+.modal-header h2 {
+    margin: 0;
+    padding: 10px;
+    font-size: 1.5em;
+    color: #333; /* Neutral dark gray */
+}
+
+/* Modal Body */
+.modal-body p {
+    margin: 15px 0;
+    font-size: 1em;
+    color: #555; /* Soft gray for text */
+    padding: 0 20px;
+}
+
+/* Fade-In and Fade-Out Animation */
+@keyframes fadeInAndOut {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -60%); /* Start slightly higher */
+    }
+    10%, 90% {
+        opacity: 1;
+        transform: translate(-50%, -50%); /* Centered at full visibility */
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -40%); /* Move slightly down as it fades */
+    }
+}
+
+
+

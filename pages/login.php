@@ -11,23 +11,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Check if username and password are correct
         $query = "SELECT * FROM users WHERE username = '$username' LIMIT 1";
         $result = mysqli_query($conn, $query);
-        
+
         if ($result) {
             $user = mysqli_fetch_assoc($result);
-            if (password_verify($password, $user['password'])) {
+            if ($user && password_verify($password, $user['password'])) {
                 // Password is correct, start session
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 header("Location: home.php");
+                exit();
             } else {
+                // Incorrect username or password
                 $error = "Invalid username or password!";
             }
         } else {
+            // Query failed or user not found
             $error = "User not found!";
+        }
+
+        // Include the error message in the response as a JavaScript variable
+        if (isset($error)) {
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    showAlert('Error', '$error', 'error');
+                });
+            </script>";
         }
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -75,5 +88,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <p>Don't have an account? <a href="signup.php">Sign Up</a></p>
     </div>
   </main>
+
+  <!-- Custom Alert Modal -->
+  <div id="custom-alert" class="modal" style="display: none;">
+      <div class="modal-content">
+      <h2 id="alert-title"></h2>
+      <p id="alert-message"></p>
+      </div>
+  </div>
+
+  <script>
+function showAlert(title, message, type = 'success') {
+    const alertTitle = document.getElementById('alert-title');
+    const alertMessage = document.getElementById('alert-message');
+    const alertBox = document.getElementById('custom-alert');
+
+    // Set the alert title and message
+    alertTitle.textContent = title;
+    alertMessage.textContent = message;
+
+    // Style the alert based on type
+    if (type === 'success') {
+        alertBox.querySelector('.modal-content').style.backgroundColor = '#a1e3b7'; // Light green for success
+    } else if (type === 'error') {
+        alertBox.querySelector('.modal-content').style.backgroundColor = '#f8b0b0'; // Light red for error
+    } else {
+        alertBox.querySelector('.modal-content').style.backgroundColor = '#ffebf0'; // Default pink
+    }
+
+    alertBox.style.display = 'block'; // Show the alert
+    // Close the alert after 3 seconds
+    setTimeout(() => {
+        alertBox.style.display = 'none';
+    }, 3000); // Hide after 3 seconds
+}
+
+function closeCustomAlert() {
+    document.getElementById('custom-alert').style.display = 'none';
+}
+</script>
+
+
 </body>
 </html>
