@@ -39,4 +39,4 @@
 
 ---
 
-Stay tuned for more updates!
+✨ Stay tuned for more updates! ✨
