@@ -5,6 +5,17 @@ require_once 'config.php'; // Include your database connection file
 // Initialize an error message variable
 $error = "";
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
+  $name = trim($_POST['name']);
+
+  // Validate name (only letters, spaces, periods, and dashes)
+  if (!preg_match('/^[a-zA-Z\s.-]+$/', $name)) {
+      $_SESSION['error'] = "Name must only contain letters, spaces, periods, and dashes.";
+      header("Location: home.php"); // Redirect back with an error
+      exit();
+  }
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['signup'])) {
         $name = $_POST['name'];
@@ -12,8 +23,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password = $_POST['password'];
         $confirm_password = $_POST['confirm-password'];
 
-        // Check if passwords match
-        if ($password !== $confirm_password) {
+        // Check if any required fields are empty
+        if (empty($name) || empty($username) || empty($password) || empty($confirm_password)) {
+            $error = "All fields are required!";
+        } elseif ($password !== $confirm_password) {
             $error = "Passwords do not match!";
         } else {
             // Hash the password before storing
@@ -40,6 +53,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <h1>Create Your Account</h1>
 
       <!-- Sign Up Form -->
-      <form action="signup.php" method="POST">
+      <form action="signup.php" method="POST" onsubmit="return validateAndSubmitName()">
         <div class="form-group">
           <label for="name">Full Name:</label>
           <input type="text" id="name" name="name" required>
@@ -97,6 +112,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 
   <script>
+    function validateName(name) {
+    const regex = /^[a-zA-Z\s.-]+$/; // Allows letters, spaces, periods, and dashes
+    return regex.test(name);
+    }
+
+    function validateAndSubmitName() {
+        const nameInput = document.querySelector('input[name="name"]');
+        const nameValue = nameInput.value.trim();
+
+        if (!validateName(nameValue)) {
+            showAlert('Error', 'Name must only contain letters, spaces, periods, and dashes.', 'error');
+            return false; // Prevent form submission
+        }
+
+        // Form submission proceeds if validation passes
+        nameInput.form.submit();
+    }
+
     function showAlert(title, message, type = 'success') {
       const alertTitle = document.getElementById('alert-title');
       const alertMessage = document.getElementById('alert-message');

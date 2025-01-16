@@ -18,7 +18,7 @@
 - **Login**
     - **Validation: Checks if account exists, incorrect password/username**
 - **Create Account**
-    - **Validation: Unique username, match password**
+    - **Validation: No special characters in name, Unique username, match password**
 - **Dashboard:**
     - **View Account**
     - **Edit Account**:
