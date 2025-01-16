@@ -8,6 +8,32 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
+    $name = trim($_POST['name']);
+
+    // Validate name (only letters, spaces, periods, and dashes)
+    if (!preg_match('/^[a-zA-Z\s.-]+$/', $name)) {
+        $_SESSION['error'] = "Name must only contain letters, spaces, periods, and dashes.";
+        header("Location: home.php"); // Redirect back with an error
+        exit();
+    }
+
+    // Proceed with updating the name in the database
+    $user_id = $_SESSION['user_id'];
+    $sql = "UPDATE users SET name = ? WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('si', $name, $user_id);
+
+    if ($stmt->execute()) {
+        $_SESSION['success'] = "Name updated successfully.";
+    } else {
+        $_SESSION['error'] = "Failed to update the name. Please try again.";
+    }
+
+    header("Location: home.php");
+    exit();
+}
+
 // Fetch user details
 $user_id = $_SESSION['user_id'];
 $sql = "SELECT * FROM users WHERE id = '$user_id'";
@@ -97,8 +123,8 @@ unset($_SESSION['success'], $_SESSION['error']);
             <!-- Profile Picture Section -->
             <div>
                 <h3>Change Profile Picture</h3>
-                <form action="updateaccount.php" method="POST" enctype="multipart/form-data">
-                    <input type="file" name="profile_picture" accept="image/*">
+                <form id="profilePicForm" action="updateaccount.php" method="POST" enctype="multipart/form-data" onsubmit="return validateProfilePicture()">
+                    <input type="file" id="profilePictureInput" name="profile_picture" accept="image/*">
                     <button type="submit">Change Picture</button>
                 </form>
             </div>
@@ -106,7 +132,7 @@ unset($_SESSION['success'], $_SESSION['error']);
             <!-- Name Section -->
             <div>
                 <h3>Change Name</h3>
-                <form action="updateaccount.php" method="POST">
+                <form action="updateaccount.php" method="POST" onsubmit="return validateAndSubmitName()">
                     <input type="text" name="name" placeholder="Full Name" value="<?php echo $user['name']; ?>" required>
                     <button type="submit">Change Name</button>
                 </form>
@@ -267,6 +293,34 @@ unset($_SESSION['success'], $_SESSION['error']);
         }
     });
     
+    function validateName(name) {
+    const regex = /^[a-zA-Z\s.-]+$/; // Allows letters, spaces, periods, and dashes
+    return regex.test(name);
+    }
+
+    function validateAndSubmitName() {
+        const nameInput = document.querySelector('input[name="name"]');
+        const nameValue = nameInput.value.trim();
+
+        if (!validateName(nameValue)) {
+            showAlert('Error', 'Name must only contain letters, spaces, periods, and dashes.', 'error');
+            return false; // Prevent form submission
+        }
+
+        // Form submission proceeds if validation passes
+        nameInput.form.submit();
+    }
+
+    function validateProfilePicture() {
+    const profilePictureInput = document.getElementById('profilePictureInput');
+    
+    // Check if a file is selected
+    if (!profilePictureInput.files || profilePictureInput.files.length === 0) {
+        showAlert('Error', 'No file chosen. Please select a file before submitting.', 'error');
+        return false; // Prevent form submission
+    }
+    return true; // Allow form submission
+    }
 
     function openLogoutModal() {
         closeAllModals(); // Close all modals before opening the logout modal
