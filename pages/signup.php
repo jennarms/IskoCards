@@ -2,7 +2,9 @@
 session_start();
 require_once 'config.php'; // Include your database connection file
 
-// Handle the Sign Up Process
+// Initialize an error message variable
+$error = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['signup'])) {
         $name = $_POST['name'];
@@ -38,14 +40,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign Up - IskoCards</title>
-  <link rel="stylesheet" href="../css/loginsignup.css"> <!-- Link to your new CSS file -->
+  <link rel="stylesheet" href="../css/loginsignup.css"> 
 </head>
 <body>
   <header>
@@ -55,10 +56,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </header>
 
   <main>
-
-  <div class="background-image">
-    <img src="../assets/LoginSignup.png " alt="background-image" style="width: 100%; height: auto;">
-  </div>
+    <div class="background-image">
+      <img src="../assets/LoginSignup.png" alt="background-image" style="width: 100%; height: auto;">
+    </div>
 
     <div class="auth-container">
       <h1>Create Your Account</h1>
@@ -84,14 +84,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <button type="submit" name="signup" class="signup-btn">Sign Up</button>
       </form>
 
-      <?php
-      if (isset($error)) {
-          echo "<p style='color: red;'>$error</p>";
-      }
-      ?>
-
       <p>Already have an account? <a href="login.php">Log In</a></p>
     </div>
   </main>
+
+  <!-- Custom Alert Modal -->
+  <div id="custom-alert" class="modal" style="display: none;">
+    <div class="modal-content">
+      <h2 id="alert-title"></h2>
+      <p id="alert-message"></p>
+    </div>
+  </div>
+
+  <script>
+    function showAlert(title, message, type = 'success') {
+      const alertTitle = document.getElementById('alert-title');
+      const alertMessage = document.getElementById('alert-message');
+      const alertBox = document.getElementById('custom-alert');
+
+      // Set the alert title and message
+      alertTitle.textContent = title;
+      alertMessage.textContent = message;
+
+      // Style the alert based on type
+      if (type === 'success') {
+          alertBox.querySelector('.modal-content').style.backgroundColor = '#a1e3b7'; // Light green for success
+      } else if (type === 'error') {
+          alertBox.querySelector('.modal-content').style.backgroundColor = '#f8b0b0'; // Light red for error
+      } else {
+          alertBox.querySelector('.modal-content').style.backgroundColor = '#ffebf0'; // Default pink
+      }
+
+      alertBox.style.display = 'block'; // Show the alert
+      // Close the alert after 3 seconds
+      setTimeout(() => {
+          alertBox.style.display = 'none';
+      }, 3000); // Hide after 3 seconds
+    }
+
+    // Show PHP error message if exists
+    const phpError = "<?php echo isset($error) ? $error : ''; ?>";
+    if (phpError) {
+      showAlert('Error', phpError, 'error');
+    }
+  </script>
 </body>
 </html>

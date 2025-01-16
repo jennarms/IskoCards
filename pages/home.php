@@ -294,6 +294,7 @@ unset($_SESSION['success'], $_SESSION['error']);
     function openFlashcardsPage(folderId) {
     window.location.href = `flashcards.php?folder_id=${folderId}`;
 }
+
 function addFolder() {
     const folderName = document.getElementById('folder-name').value.trim();
     if (folderName) {
@@ -308,6 +309,8 @@ function addFolder() {
                 const folderList = document.getElementById('folder-list');
                 const folderCard = document.createElement('div');
                 folderCard.className = 'folder-card';
+                folderCard.setAttribute('data-folder-id', data.folder_id); // Set the folder ID
+
                 folderCard.innerHTML = `
                     <div class="folder-name">${data.folder_name}</div>
                     <img src="../assets/folder.png" alt="${data.folder_name}" class="folder-image">
@@ -316,18 +319,23 @@ function addFolder() {
                         <img src="../assets/delete.png" alt="Delete Folder" class="delete-folder" onclick="openDeleteFolderModal(event, ${data.folder_id})">
                     </div>
                 `;
+
+                // Add click listener for navigating to the flashcards page
+                folderCard.addEventListener('click', () => openFlashcardsPage(data.folder_id));
+
                 folderList.appendChild(folderCard);
                 closeAddFolderModal();
                 document.getElementById('folder-name').value = '';
             } else {
-                showAlert(data.message);
+                showAlert('Error', data.message, 'error');
             }
         })
         .catch(error => console.error('Error:', error));
     } else {
-        showAlert("Please enter a folder name.");
+        showAlert('Error', 'Please enter a folder name.', 'error');
     }
 }
+
 
 // Variables to track the folder being edited or deleted
 let folderToEditId = null;
@@ -481,6 +489,34 @@ function showAlert(title, message, type = 'success') {
             openEditModal();
         <?php endif; ?>
     };
+
+    function refreshFolderList() {
+    fetch('fetch_folders.php') // Create a separate PHP script to fetch all folders
+        .then(response => response.json())
+        .then(data => {
+            const folderList = document.getElementById('folder-list');
+            folderList.innerHTML = ''; // Clear the current folder list
+            data.folders.forEach(folder => {
+                const folderCard = document.createElement('div');
+                folderCard.className = 'folder-card';
+                folderCard.setAttribute('data-folder-id', folder.folder_id);
+
+                folderCard.innerHTML = `
+                    <div class="folder-name">${folder.folder_name}</div>
+                    <img src="../assets/folder.png" alt="${folder.folder_name}" class="folder-image">
+                    <div class="folder-actions">
+                        <img src="../assets/edit.png" alt="Edit Folder" class="edit-folder" onclick="openEditFolderModal(event, ${folder.folder_id}, '${folder.folder_name}')">
+                        <img src="../assets/delete.png" alt="Delete Folder" class="delete-folder" onclick="openDeleteFolderModal(event, ${folder.folder_id})">
+                    </div>
+                `;
+
+                folderCard.addEventListener('click', () => openFlashcardsPage(folder.folder_id));
+                folderList.appendChild(folderCard);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
+
 </script>
 
 </body>
