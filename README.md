@@ -36,6 +36,7 @@
         - **Validation: name folder not empty, check duplicate name**
     - **Delete Folder**
         - **Validation: confirmation before deletion**
+    - **Search Folder**
     - **Link to Flashcards Webpage**
 - **Flashcard**
     - **Ongoing Development**
