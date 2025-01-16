@@ -16,18 +16,24 @@
 
 ### **User Account**:
 - **Login**
+    - **Validation: Checks if account exists, incorrect password/username**
 - **Create Account**
+    - **Validation: Unique username, match password**
 - **Dashboard:**
     - **View Account**
     - **Edit Account**:
         - **Change Profile Picture**
         - **Edit Name**
         - **Edit Username**
+            - **Validation: Unique username**
     - **Logout**
 - **Folder Management**
     - **Create Folder**
+        - **Validation: name folder not empty, check duplicate name**
     - **Edit Folder**
+        - **Validation: name folder not empty, check duplicate name**
     - **Delete Folder**
+        - **Validation: confirmation before deletion**
     - **Link to Flashcards Webpage**
 - **Flashcard**
     - **Ongoing Development**
