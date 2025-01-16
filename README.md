@@ -28,7 +28,8 @@
             - **Validation: no special characters aside from letters, spaces, periods and dashes**
         - **Edit Username**
             - **Validation: Unique username**
-    - **Logout**
+    - **Privacy Policy Page**
+    - **About Page**
 - **Folder Management**
     - **Create Folder**
         - **Validation: name folder not empty, check duplicate name**
