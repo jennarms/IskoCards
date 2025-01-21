@@ -196,18 +196,22 @@ unset($_SESSION['success'], $_SESSION['error']);
         <h1>Welcome, <?php echo $user['name']; ?>!</h1>
         <p>Retain Knowledge Like Never Before</p>
     </div>
+    
     <div class="search-bar">
     <input type="text" id="folder-search" placeholder="Search folders..." />
     </div>
+
     <div id="folder-list" class="folders-container">
     <?php foreach ($folders as $folder): ?>
-        
-        <div class="folder-card" data-folder-id="<?php echo $folder['folder_id']; ?>" onclick="openFlashcardsPage(<?php echo $folder['folder_id']; ?>)">
-        <div class="folder-name"><?php echo htmlspecialchars($folder['folder_name']); ?></div>
+
+    <div class="folder-card" data-folder-id="<?php echo $folder['folder_id']; ?>" onclick="openFlashcardsPage(<?php echo $folder['folder_id']; ?>)">
+    <div class="folder-left">
         <img src="../assets/folder.png" alt="<?php echo htmlspecialchars($folder['folder_name']); ?>" class="folder-image">
-        <div class="folder-actions">
-            <img src="../assets/edit.png" alt="Edit Folder" class="edit-folder" onclick="openEditFolderModal(event, <?php echo $folder['folder_id']; ?>, '<?php echo htmlspecialchars($folder['folder_name']); ?>')">
-            <img src="../assets/delete.png" alt="Delete Folder" class="delete-folder" onclick="openDeleteFolderModal(event, <?php echo $folder['folder_id']; ?>)">
+        <div class="folder-name"><?php echo htmlspecialchars($folder['folder_name']); ?></div>
+    </div>
+    <div class="folder-actions">
+        <img src="../assets/edit.png" alt="Edit Folder" class="edit-folder" onclick="openEditFolderModal(event, <?php echo $folder['folder_id']; ?>, '<?php echo htmlspecialchars($folder['folder_name']); ?>')">
+        <img src="../assets/delete.png" alt="Delete Folder" class="delete-folder" onclick="openDeleteFolderModal(event, <?php echo $folder['folder_id']; ?>)">
         </div>
     </div>
 

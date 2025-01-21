@@ -436,20 +436,20 @@ header .header-actions img.profile-pic.active {
 /* Folders Container */
 .folders-container {
     display: flex;
-    flex-wrap: wrap; /* Allows items to wrap within the container */
-    gap: 20px; /* Space between folder cards */
-    justify-content: flex-start; /* Align folders to the left */
-    align-items: flex-start; /* Align items to the top */
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+    align-items: flex-start;
     padding: 10px;
     background-color: rgba(255, 255, 255, 0.7);
     border-radius: 10px;
-    width: 100%; /* Adjust the width to fit your layout */
-    max-width: 1200px; /* Optional: Set a max width */
-    height: 600px; /* Set a fixed height */
-    overflow-y: auto; /* Add vertical scrollbar */
-    overflow-x: hidden; /* Prevent horizontal scrolling */
-    margin: 0 auto; /* Center the container */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+    width: 100%;
+    max-width: 1200px;
+    height: 600px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin: 0 auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 .folders-container::-webkit-scrollbar {
     width: 8px;
@@ -468,91 +468,58 @@ header .header-actions img.profile-pic.active {
     background: #f5f5f5; /* Background color of the track */
 }
 
-
 /* Folder Card */
 .folder-card {
-    width: 150px;
-    height: 150px;
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    border: 1px solid #000; /* Thin black edges */
+    width: 100%;
+    padding: 10px 20px;
+    border: 1px solid #000;
     border-radius: 10px;
-    background-color: #fff; /* White background */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease, box-shadow 0.3s ease;
     cursor: pointer;
 }
 
-.folder-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Folder Name */
-.folder-card .folder-name {
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    color: #000;
-}
-
-/* Folder Card */
-.folder-card {
-    width: 150px; /* Keep the width the same */
-    height: 200px; /* Adjust height to fit image and actions */
+/* Left Section (Image and Name) */
+.folder-left {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px; /* Reduced padding */
-    border: 1px solid #000; /* Thin black edges */
-    border-radius: 10px;
-    background-color: #fff; /* White background */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    transition: transform 0.2s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-}
-
-.folder-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    align-items: center; /* Align image and text vertically */
+    gap: 15px; /* Add space between image and text */
 }
 
 /* Folder Image */
-.folder-card .folder-image {
-    width: 100px; /* Slightly larger image */
-    height: 100px; /* Slightly larger image */
+.folder-image {
+    width: 70px;
+    height: 70px;
     object-fit: contain;
-    margin-bottom: 5px; /* Reduced space between image and folder name */
 }
 
 /* Folder Name */
-.folder-card .folder-name {
-    font-size: 14px; /* Slightly smaller font */
+.folder-name {
+    font-size: 16px;
     font-weight: bold;
-    text-align: center;
     color: #000;
-    margin-bottom: 5px; /* Reduced space between name and actions */
+    text-align: left;
 }
 
-/* Folder Actions (Edit/Delete) */
-.folder-card .folder-actions {
+/* Folder Actions */
+.folder-actions {
     display: flex;
-    gap: 5px; /* Reduced gap between buttons */
+    gap: 15px;
 }
 
-.folder-card .folder-actions img {
-    width: 25px;
-    height: 25px;
+.folder-actions img {
+    width: 40px;
+    height: 40px;
     cursor: pointer;
     transition: transform 0.2s ease;
 }
 
-.folder-card .folder-actions img:hover {
-    transform: scale(1.1); /* Slightly larger on hover */
+.folder-actions img:hover {
+    transform: scale(1.1);
 }
 
 /* Add Folder Modal */
@@ -736,7 +703,6 @@ button.cancel, button.confirm {
         transform: translateX(-50%) translateY(0);
     }
 }
-
 
 
 
