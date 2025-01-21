@@ -1,0 +1,281 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background: url('../assets/background.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #333;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Container */
+.container {
+    width: 90%;
+    height: 95%;
+    max-width: 1500px;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    overflow: visible;
+}
+
+/* Top Section */
+.top-section {
+    margin-bottom: 5px;
+}
+
+.folder-name {
+    font-size: 2.3rem;
+    margin-bottom: 2px;
+    color: #333;
+}
+
+.flashcard-count {
+    font-size: 1.5rem;
+    color: #666;
+}
+
+.question-number {
+    font-size: 1.5rem; 
+    font-weight: bold;
+}
+
+/* Flashcard Display */
+.flashcard-display {
+    perspective: 1000px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: visible;
+    height: 100%;
+    max-height: 600px;
+}
+
+.flashcard {
+    width: 100%;
+    max-width: 1000px;
+    height: 100%;
+    max-height: 100%;
+    margin: 0 auto;
+    position: relative;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 1s ease-out; /* Smooth transition */
+}
+
+.flashcard.flipped {
+    transform: rotateY(180deg); /* Flip the card */
+}
+
+.flashcard-inner {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+    transition: transform 1s ease-out; /* Smooth inner transition */
+}
+
+/* Flashcard Front and Back */
+.flashcard-front, .flashcard-back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-size: 1.5rem; /* Increase font size */
+    color: #333; /* Default text color */
+    text-align: center; /* Center align text */
+    overflow: hidden; /* Prevent text overflow */
+    word-wrap: break-word; /* Handle long words */
+}
+
+/* Front Content - Question */
+.flashcard-front {
+    background: #f5f5f5; /* Light gray for question side */
+    color: #5e2483; /* Distinctive color for the question */
+    font-weight: bold; /* Make the question stand out */
+}
+
+/* Back Content - Answer */
+.flashcard-back {
+    background: #eecf82; /* Light yellow for answer side */
+    color: #333; /* Darker color for contrast */
+    font-weight: normal; /* Normal weight for the answer */
+    transform: rotateY(180deg); /* Rotate for back face */
+}
+
+/* Larger Text for Question and Answer */
+.flashcard-front p,
+.flashcard-back p {
+    font-size: 2rem; /* Larger text for better readability */
+    line-height: 1.4; /* Adjust line spacing */
+    margin: 0 20px; /* Add spacing for better layout */
+}
+
+/* Additional Styling for Answer */
+.flashcard-back p {
+    font-style: italic; /* Italicize the answer for distinction */
+    font-weight: bold; /* Bold for emphasis */
+    color: #4a4a4a; /* Subtle dark gray */
+}
+
+/* Slide Animation */
+@keyframes slide-left {
+    0% {
+        transform: translateX(100%); /* Start from the right for next */
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0); /* End at the default position */
+        opacity: 1;
+    }
+}
+
+@keyframes slide-right {
+    0% {
+        transform: translateX(-100%); /* Start from the left for previous */
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0); /* End at the default position */
+        opacity: 1;
+    }
+}
+
+.flashcard-next {
+    animation: slide-left 0.8s ease-in-out;
+}
+
+.flashcard-prev {
+    animation: slide-right 0.8s ease-in-out;
+}
+
+
+
+
+/* Navigation Buttons */
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.nav-btn {
+    background: none; /* Remove background */
+    color: inherit; /* Use the parent element's text color */
+    border: none; /* Remove border */
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out; /* Animation for scaling effect */
+    font-size: 4rem;
+}
+
+.nav-btn:hover {
+    transform: scale(1.2); /* Slightly enlarge the button on hover */
+}
+
+
+/* End Review Button */
+.end-review-btn {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.end-review-btn button {
+    display: inline-block;
+    text-decoration: none;
+    background-color: #5e2483;
+    color: #eecf82;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 1.1vw;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.end-review-btn button:hover {
+    background-color: #eecf82;
+    color: #5e2483;
+}
+
+.elapsed-time {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+#elapsed-time {
+    font-weight: bold;
+    color: #5e2483;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.modal-content p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.modal-content button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background: #5e2483;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-content button:hover {
+    background: #eecf82;
+    color: #5e2483;
+}
+
+
