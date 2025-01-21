@@ -42,9 +42,9 @@
     - **Link to Flashcards Webpage**
 - **Flashcard Management**
     - **Create Flashcard**
-        - **Validation: name folder not empty**
+        - **Validation: question and answer fields not empty**
     - **Edit Flashcard**
-        - **Validation: name folder not empty**
+        - **Validation: question and answer folder not empty**
     - **Delete Flashcard**
         - **Validation: confirmation before deletion**
     - **Review Flashcard**
