@@ -1,0 +1,450 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background: url('../assets/background.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #333;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 15px;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    z-index: 1;
+}
+
+header .header-actions img.profile-pic {
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Profile Picture Hover Effect */
+header .header-actions img.profile-pic:hover {
+    transform: scale(1.1); /* Slight zoom effect */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a shadow */
+}
+
+/* When Clicked - Example Active State */
+header .header-actions img.profile-pic.active {
+    transform: scale(1.2); /* Larger zoom effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+}
+
+/* Top Section */
+.top-section {
+    margin-top: 70px; /* Offset for fixed header */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    padding: 10px 20px;
+    background-color: #eecf82;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.top-section .folder-name h1 {
+    font-size: 1.5rem;
+    color: black;
+}
+
+.top-section .actions button {
+    background-color: white; /* White background */
+    color: black; /* Black text */
+    border: 2px solid black; /* Black border for definition */
+    font-weight: bold;
+    border-radius: 5px; /* Slightly rounded corners */
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.top-section .actions button:hover {
+    background-color: #f5f5f5; /* Light gray on hover */
+    transform: translateY(-2px); /* Subtle lift effect on hover */
+}
+
+.top-section .actions button:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.05);
+}
+
+/* Main Section */
+.main-section {
+    margin-top: 20px;
+    width: 90%;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.flashcard-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.flashcard-item {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    width: calc(33.333% - 20px); /* Three cards per row */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.flashcard-item:hover {
+    transform: translateY(-5px); /* Slight lift effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+}
+
+.flashcard-item span {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.flashcard-item p {
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* Flashcard Item Actions */
+.flashcard-item .actions button {
+    border: none; /* Remove the border */
+    background: none; /* Remove background */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Subtle and quick hover effect */
+    display: inline-flex; /* Ensures the button wraps the image */
+    align-items: center; /* Center-align image vertically */
+    justify-content: center; /* Center-align image horizontally */
+}
+
+/* Hover effect */
+.flashcard-item .actions button:hover {
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
+/* Image inside the button */
+.flashcard-item .actions button img {
+    width: 30px !important; /* Adjust the width of the image */
+    height: 30px !important; /* Adjust the height of the image */
+    display: block; /* Prevent extra spacing around the image */
+    border: 1px solid #eecf82; /* Thin border around the image */
+    border-radius: 5px; /* Optional: slightly rounded corners */
+    transition: border-color 0.2s ease, transform 0.2s ease; /* Smooth transition for border and scaling */
+}
+
+/* Hover effect for image */
+.flashcard-item .actions button img:hover {
+    border-color: #5e2483; /* Change border color on hover */
+    transform: scale(1.07); /* Slight additional zoom on the image */
+}
+
+/* Modal */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1100;
+}
+
+.modal.active {
+    display: flex; /* Make modal visible when active */
+}
+
+.modal-content {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.modal-header {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #5e2483;
+    font-weight: bold;
+}
+
+.modal-body {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between fields */
+}
+
+.modal-body input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #eecf82;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    margin-bottom: 5px; /* Adds space between input fields */
+}
+
+.modal-body input:focus {
+    border-color: #eecf82;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.modal-footer button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Cancel Button */
+.modal-footer .cancel {
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+}
+
+.modal-footer .cancel:hover {
+    background-color: #f5f5f5;
+    color: black;
+    transform: translateY(-2px);
+}
+
+/* Confirm Button */
+.modal-footer .confirm {
+    background-color: #5e2483;
+    color: #fff;
+    border: none;
+    font-weight: bold;
+}
+
+.modal-footer .confirm:hover {
+    background-color: #eecf82;
+    color: #5e2483;
+    transform: translateY(-2px);
+}
+
+
+/* Edit/Delete Modal */
+.edit-delete-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1100;
+}
+
+.edit-delete-modal.active {
+    display: flex; /* Make modal visible when active */
+}
+
+.edit-delete-modal .modal-content {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.edit-delete-modal .modal-header {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #5e2483;
+    font-weight: bold;
+}
+
+.edit-delete-modal .modal-body {
+    margin-bottom: 20px;
+}
+
+.edit-delete-modal .modal-body p {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.edit-delete-modal .modal-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.edit-delete-modal .modal-footer button {
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 45%;
+}
+
+/* Input Fields for Edit Flashcard Modal */
+#edit-question, #edit-answer {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #eecf82; /* Border color */
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 15px; /* Space between fields */
+}
+
+/* Focus State for Input Fields */
+#edit-question:focus, #edit-answer:focus {
+    border-color: #5e2483; /* Change border color on focus */
+    box-shadow: 0 0 5px rgba(94, 36, 131, 0.5); /* Subtle shadow on focus */
+}
+
+/* Placeholder Styling */
+#edit-question::placeholder, #edit-answer::placeholder {
+    color: #aaa; /* Lighter placeholder color */
+    font-style: italic; /* Italicize the placeholder text */
+}
+
+
+/* Cancel Button */
+.edit-delete-modal .modal-footer .cancel {
+    background-color: #f5f5f5;
+    color: black;
+    border: 2px solid #ddd;
+}
+
+.edit-delete-modal .modal-footer .cancel:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-2px);
+}
+
+/* Confirm Button */
+.edit-delete-modal .modal-footer .confirm {
+    background-color: #5e2483;
+    color: white;
+    border: none;
+    font-weight: bold;
+}
+
+.edit-delete-modal .modal-footer .confirm:hover {
+    background-color: #eecf82;
+    color: #5e2483;
+    transform: translateY(-2px);
+}
+
+/* Hover Effects for Buttons */
+.edit-delete-modal .modal-footer button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Scrollbars */
+.flashcard-container::-webkit-scrollbar {
+    width: 10px;
+}
+
+.flashcard-container::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 10px;
+}
+
+.flashcard-container::-webkit-scrollbar-thumb:hover {
+    background-color: #bbb;
+}
+
+/* Custom alert modal */
+.custom-alert {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #333;
+    padding: 20px 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100%;
+    max-width: 600px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.custom-alert .alert-content h3 {
+    font-size: 1.6em;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.custom-alert .alert-content p {
+    font-size: 1.2em;
+    margin-bottom: 18px;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+
