@@ -40,8 +40,14 @@
         - **Validation: confirmation before deletion**
     - **Search Folder**
     - **Link to Flashcards Webpage**
-- **Flashcard**
-    - **Ongoing Development**
+- **Flashcard Management**
+    - **Create Flashcard**
+        - **Validation: name folder not empty**
+    - **Edit Flashcard**
+        - **Validation: name folder not empty**
+    - **Delete Flashcard**
+        - **Validation: confirmation before deletion**
+    - **Review Flashcard**
 
 ### Admin Account:
 - **UI Developed** (Still up for further development)
