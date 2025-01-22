@@ -103,6 +103,8 @@ header .header-actions img.profile-pic.active {
 .flashcard-container {
     display: flex;
     flex-wrap: wrap;
+    padding: 10px;
+    padding-left: 35px;
     gap: 15px;
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
