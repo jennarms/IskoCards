@@ -196,24 +196,29 @@ $flashcards_query->close();
         </div>
     </div>
 
+    <!-- Search Section -->
+    <section class="search-bar">
+        <input type="text" id="search-input" placeholder="Search flashcard questions..." onkeyup="filterFlashcards()">
+    </section>
+
     <!-- Main Section -->
     <section class="main-section">
         <div class="flashcard-container">
-            <?php foreach ($flashcards as $index => $flashcard): ?>
-                <div class="flashcard-item">
-                    <span>Question <?php echo $index + 1; ?></span>
-                    <p><?php echo htmlspecialchars($flashcard['question']); ?></p>
-                    <div class="actions">
-                        <button onclick="editFlashcard(<?php echo $flashcard['flashcard_id']; ?>)">
-                            <img src="../assets/edit.png" alt="Edit" style="width: 20px; height: 20px;">
-                        </button>
-                        <button onclick="deleteFlashcard(<?php echo $flashcard['flashcard_id']; ?>)">
-                            <img src="../assets/delete.png" alt="Delete" style="width: 20px; height: 20px;">
-                        </button>
-                    </div>
+        <?php foreach ($flashcards as $index => $flashcard): ?>
+            <div class="flashcard-item">
+                <span>Question <?php echo $index + 1; ?></span>
+                <p class="question"><?php echo htmlspecialchars($flashcard['question']); ?></p>
+                <div class="actions">
+                    <button onclick="editFlashcard(<?php echo $flashcard['flashcard_id']; ?>)">
+                        <img src="../assets/edit.png" alt="Edit" style="width: 20px; height: 20px;">
+                    </button>
+                    <button onclick="deleteFlashcard(<?php echo $flashcard['flashcard_id']; ?>)">
+                        <img src="../assets/delete.png" alt="Delete" style="width: 20px; height: 20px;">
+                    </button>
                 </div>
-            <?php endforeach; ?>
-        </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
     </section>
 
     <!-- Add Flashcard Modal -->
@@ -301,8 +306,19 @@ $flashcards_query->close();
         }
 
         function reviewFlashcards() {
+            // Get the total number of flashcards available in the current folder
+            const flashcards = <?php echo json_encode($flashcards); ?>;
+            
+            if (flashcards.length === 0) {
+                // Show alert if no flashcards exist
+                showAlert('Error', 'No flashcards available for review.');
+                return; // Stop the function execution
+            }
+
+            // Redirect to the review page if there are flashcards
             location.href = `review.php?folder_id=<?php echo $folder_id; ?>`;
         }
+
 
         function editFlashcard(flashcardId) {
             document.getElementById('edit-flashcard-modal').style.display = 'flex';
@@ -381,6 +397,21 @@ $flashcards_query->close();
             })
             .catch(error => console.error('Error:', error));
         }
+        
+        function filterFlashcards() {
+    const searchInput = document.getElementById('search-input').value.toLowerCase();
+    const flashcards = document.querySelectorAll('.flashcard-item');
+
+    flashcards.forEach(flashcard => {
+        const question = flashcard.querySelector('.question').textContent.toLowerCase();
+        if (question.includes(searchInput)) {
+            flashcard.style.display = 'block';
+        } else {
+            flashcard.style.display = 'none';
+        }
+    });
+}
+
     </script>
 </body>
 </html>
