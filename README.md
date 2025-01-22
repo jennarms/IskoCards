@@ -48,6 +48,11 @@
     - **Delete Flashcard**
         - **Validation: confirmation before deletion**
     - **Review Flashcard**
+        - **Elapsed Time**
+        - **Shuffle Option**
+        - **Preview and Next**
+        - **Keyboard Shortcuts**
+        - **Info button**
 
 ### Admin Account:
 - **UI Developed** (Still up for further development)
