@@ -24,7 +24,6 @@ body {
     width: 90%;
     height: 95%;
     max-width: 1500px;
-    padding: 20px;
     border-radius: 10px;
     text-align: center;
     overflow: visible;
@@ -44,6 +43,7 @@ body {
 .flashcard-count {
     font-size: 1.5rem;
     color: #666;
+    display: block;
 }
 
 .question-number {
@@ -167,9 +167,6 @@ body {
     animation: slide-right 0.8s ease-in-out;
 }
 
-
-
-
 /* Navigation Buttons */
 .navigation-buttons {
     display: flex;
@@ -184,7 +181,8 @@ body {
     border: none; /* Remove border */
     cursor: pointer;
     transition: transform 0.2s ease-in-out; /* Animation for scaling effect */
-    font-size: 4rem;
+    font-size: 3rem; /* Adjust size for shuffle icon */
+    padding: 20px;
 }
 
 .nav-btn:hover {
@@ -194,7 +192,7 @@ body {
 
 /* End Review Button */
 .end-review-btn {
-    margin-top: 20px;
+    margin-top: 15px;
     text-align: center;
 }
 
@@ -220,7 +218,6 @@ body {
 .elapsed-time {
     font-size: 1.2rem;
     color: #333;
-    margin-bottom: 10px;
 }
 
 #elapsed-time {
@@ -247,7 +244,7 @@ body {
 
 .modal-content {
     background: #fff;
-    padding: 20px;
+    padding: 15px;
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -260,7 +257,7 @@ body {
 
 .modal-content p {
     font-size: 1.2rem;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .modal-content button {
@@ -278,4 +275,97 @@ body {
     color: #5e2483;
 }
 
+/* Custom alert modal */
+.custom-alert {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #333;
+    padding: 20px 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100%;
+    max-width: 600px;
+    animation: fadeIn 0.5s ease-out;
+}
 
+.custom-alert .alert-content h3 {
+    font-size: 1.6em;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.custom-alert .alert-content p {
+    font-size: 1.2em;
+    margin-bottom: 18px;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+
+/* Tip Container */
+.tip-container {
+    position: relative;
+    display: inline-block;
+}
+
+/* Tip Button (Question Mark) */
+.tip-button {
+    padding: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #5e2483;
+    color: #eecf82;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tip-button:hover{
+    background-color: #eecf82;
+    color: #5e2483;
+}
+
+/* Tip Content (Hidden by Default) */
+.tip-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    width: 250px;
+    top: 50px;
+    left: -50%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Show the tip content when the button is clicked */
+.tip-container.active .tip-content {
+    display: block;
+}
+
+/* Ensure the button is positioned on the left */
+.folder-name {
+    display: inline-block;
+    margin-right: 10px;
+}

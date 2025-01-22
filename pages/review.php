@@ -46,6 +46,37 @@ $total_flashcards = count($flashcards);
     <link rel="stylesheet" href="../css/review.css">
 </head>
 <body>
+    <div id="custom-alert" class="custom-alert">
+        <div class="alert-content">
+            <h3 id="alert-title"></h3>
+            <p id="alert-message"></p>
+        </div>
+    </div>
+
+    <!-- Button to Show Functionalities -->
+    <div class="tip-container">
+    <button class="tip-button" onclick="toggleTip()">?</button>
+    <div class="tip-content" id="tipContent">
+        <h3>Flashcard Features:</h3>
+        <ul>
+            <li>Click to flip flashcard.</li>
+            <li>← → for navigation.</li>
+            <li>⇆ for shuffled flashcards</li>
+            <li>End Review to return.</li>
+        </ul>
+        <br>
+        <h4>Keyboard Shortcuts:</h4>
+        <ul>
+            <li><strong>←</strong> Previous</li>
+            <li><strong>→</strong> Next</li>
+            <li><strong>Space</strong> Flip</li>
+            <li><strong>S</strong> Shuffle</li>
+        </ul>
+    </div>
+</div>
+
+
+
     <div class="container">
         <!-- Folder Name & Flashcard Count -->
         <div class="top-section">
@@ -73,8 +104,10 @@ $total_flashcards = count($flashcards);
         <!-- Navigation Buttons -->
         <div class="navigation-buttons">
             <button id="prev-btn" class="nav-btn" onclick="prevFlashcard()">←</button>
+            <button id="shuffle-btn" class="nav-btn" onclick="shuffleFlashcards()">⇆</button>
             <button id="next-btn" class="nav-btn" onclick="nextFlashcard()">→</button>
         </div>
+
 
         <div class="elapsed-time">
         <span>Elapsed Time: </span>
@@ -95,8 +128,35 @@ $total_flashcards = count($flashcards);
             </div>
         </div>
 
+    <script>
 
-    <script>   
+function showAlert(title, message, type = 'success') {
+        const alertBox = document.getElementById('custom-alert');
+        const alertTitle = document.getElementById('alert-title');
+        const alertMessage = document.getElementById('alert-message');
+
+        // Set the title and message
+        alertTitle.textContent = title;
+        alertMessage.textContent = message;
+
+        // Set the background color based on the type
+        if (type === 'success') {
+            alertBox.style.backgroundColor = '#a1e3b7'; // Green for success
+        } else if (type === 'error') {
+            alertBox.style.backgroundColor = '#f8b0b0'; // Red for error
+        } else {
+            alertBox.style.backgroundColor = '#ffebf0'; // Default pink
+        }
+
+        // Show the alert
+        alertBox.style.display = 'block';
+
+        // Hide the alert after 5 seconds
+        setTimeout(() => {
+            alertBox.style.display = 'none';
+        }, 5000);
+    }
+
         let currentCardIndex = 0;
         const flashcards = <?php echo json_encode($flashcards); ?>;
         const totalFlashcards = <?php echo $total_flashcards; ?>;
@@ -139,6 +199,22 @@ $total_flashcards = count($flashcards);
                     flashcard.classList.remove('flashcard-prev'); // Remove the animation class after the transition
                 }, 800); // Duration of the animation (should match the CSS duration)
             }
+        }
+
+        // Shuffle function to randomize the flashcards array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // Function to shuffle flashcards
+        function shuffleFlashcards() {
+            shuffleArray(flashcards); // Shuffle the flashcards array
+            currentCardIndex = 0;    // Reset to the first flashcard
+            updateFlashcardDisplay(); // Update the display
+            showAlert('Flashcards shuffled!'); // Optional: Notify the user
         }
 
 
@@ -228,6 +304,37 @@ $total_flashcards = count($flashcards);
             // Redirect to the flashcards page
             window.location.href = 'flashcards.php?folder_id=<?php echo $folder_id; ?>';
         }
+
+        document.addEventListener('keydown', (event) => {
+        // Prevent default behavior for certain keys (like spacebar scrolling)
+        event.preventDefault();
+
+        // Left Arrow (←) for previous flashcard
+        if (event.key === 'ArrowLeft') {
+            prevFlashcard();
+        }
+
+        // Right Arrow (→) for next flashcard
+        if (event.key === 'ArrowRight') {
+            nextFlashcard();
+        }
+
+        // Spacebar for flipping the flashcard
+        if (event.key === ' ') {
+            flipCard();
+        }
+
+        // 'S' for shuffling flashcards
+        if (event.key.toLowerCase() === 's') {
+            shuffleFlashcards();
+        }
+    });
+    function toggleTip() {
+        var tipContent = document.getElementById('tipContent');
+        // Toggle the 'active' class to show/hide the tip content
+        tipContent.style.display = (tipContent.style.display === 'block') ? 'none' : 'block';
+    }
+
     </script>
 </body>
 </html>
