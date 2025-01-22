@@ -47,7 +47,9 @@
         - **Validation: question and answer folder not empty**
     - **Delete Flashcard**
         - **Validation: confirmation before deletion**
+    - **Search Flashcard Question**
     - **Review Flashcard**
+        - **Validation: No Flashcards to be reviewed**
         - **Elapsed Time**
         - **Shuffle Option**
         - **Preview and Next**
