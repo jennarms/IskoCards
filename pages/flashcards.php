@@ -8,9 +8,26 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+// Fetch user details
+$user_id = $_SESSION['user_id'];
+$user_query = $conn->prepare("SELECT storage_used, storage_limit FROM users WHERE id = ?");
+$user_query->bind_param("i", $user_id);
+$user_query->execute();
+$user = $user_query->get_result()->fetch_assoc();
+$user_query->close();
+
+$storage_used = $user['storage_used'];
+$storage_limit = $user['storage_limit'];
+
 // Handle POST requests for adding, editing, and deleting flashcards
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
+
+    // Prevent action if the user has exceeded their storage limit
+    if ($storage_used >= $storage_limit) {
+        echo json_encode(['status' => 'error', 'message' => 'You have reached your storage limit. Cannot add, edit, or delete flashcards.']);
+        exit();
+    }
 
     // Add Flashcard
     if ($action === 'add') {
@@ -20,11 +37,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $answer = trim($_POST['back'] ?? '');
 
         if ($folder_id > 0 && !empty($question) && !empty($answer)) {
+            // Calculate the size of the flashcard in KB
+            $flashcard_content = $question . $answer;
+            $size_bytes = strlen($flashcard_content);  // Get size in bytes
+            $size_kb = $size_bytes / 1024;  // Convert bytes to KB
+
+            // Check if adding this flashcard will exceed the storage limit
+            if ($storage_used + $size_kb > $storage_limit) {
+                echo json_encode(['status' => 'error', 'message' => 'Adding this flashcard will exceed your storage limit.']);
+                exit();
+            }
+
             // Insert flashcard into the database
-            $query = $conn->prepare("INSERT INTO flashcards (folder_id, user_id, question, answer) VALUES (?, ?, ?, ?)");
-            $query->bind_param("iiss", $folder_id, $user_id, $question, $answer);
+            $query = $conn->prepare("INSERT INTO flashcards (folder_id, user_id, question, answer, size_kb) VALUES (?, ?, ?, ?, ?)");
+            $query->bind_param("iissd", $folder_id, $user_id, $question, $answer, $size_kb);
 
             if ($query->execute()) {
+                // Recalculate the total storage used by the user
+                $total_storage_used_query = $conn->prepare("SELECT SUM(size_kb) AS total_storage_used FROM flashcards WHERE user_id = ?");
+                $total_storage_used_query->bind_param("i", $user_id);
+                $total_storage_used_query->execute();
+                $total_storage_used_result = $total_storage_used_query->get_result();
+                $total_storage_used = $total_storage_used_result->fetch_assoc()['total_storage_used'];
+                $total_storage_used_query->close();
+
+                // Update the user's storage_used field
+                $update_storage_query = $conn->prepare("UPDATE users SET storage_used = ? WHERE id = ?");
+                $update_storage_query->bind_param("di", $total_storage_used, $user_id);
+                $update_storage_query->execute();
+                $update_storage_query->close();
+
                 echo json_encode(['status' => 'success']);
             } else {
                 echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $conn->error]);
@@ -45,11 +87,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $answer = trim($_POST['answer'] ?? '');
 
         if ($flashcard_id > 0 && !empty($question) && !empty($answer)) {
+            // Calculate the size of the flashcard in KB
+            $flashcard_content = $question . $answer;
+            $size_bytes = strlen($flashcard_content);  // Get size in bytes
+            $size_kb = $size_bytes / 1024;  // Convert bytes to KB
+
+            // Check if updating this flashcard will exceed the storage limit
+            if ($storage_used + $size_kb > $storage_limit) {
+                echo json_encode(['status' => 'error', 'message' => 'Updating this flashcard will exceed your storage limit.']);
+                exit();
+            }
+
             // Update flashcard in the database
-            $query = $conn->prepare("UPDATE flashcards SET question = ?, answer = ? WHERE flashcard_id = ? AND user_id = ?");
-            $query->bind_param("ssii", $question, $answer, $flashcard_id, $user_id);
+            $query = $conn->prepare("UPDATE flashcards SET question = ?, answer = ?, size_kb = ? WHERE flashcard_id = ? AND user_id = ?");
+            $query->bind_param("ssdi", $question, $answer, $size_kb, $flashcard_id, $user_id);
 
             if ($query->execute()) {
+                // Recalculate the total storage used by the user
+                $total_storage_used_query = $conn->prepare("SELECT SUM(size_kb) AS total_storage_used FROM flashcards WHERE user_id = ?");
+                $total_storage_used_query->bind_param("i", $user_id);
+                $total_storage_used_query->execute();
+                $total_storage_used_result = $total_storage_used_query->get_result();
+                $total_storage_used = $total_storage_used_result->fetch_assoc()['total_storage_used'];
+                $total_storage_used_query->close();
+
+                // Update the user's storage_used field
+                $update_storage_query = $conn->prepare("UPDATE users SET storage_used = ? WHERE id = ?");
+                $update_storage_query->bind_param("di", $total_storage_used, $user_id);
+                $update_storage_query->execute();
+                $update_storage_query->close();
+
                 echo json_encode(['status' => 'success']);
             } else {
                 echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $conn->error]);
@@ -73,6 +140,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $query->bind_param("ii", $flashcard_id, $user_id);
 
             if ($query->execute()) {
+                // Recalculate the total storage used by the user
+                $total_storage_used_query = $conn->prepare("SELECT SUM(size_kb) AS total_storage_used FROM flashcards WHERE user_id = ?");
+                $total_storage_used_query->bind_param("i", $user_id);
+                $total_storage_used_query->execute();
+                $total_storage_used_result = $total_storage_used_query->get_result();
+                $total_storage_used = $total_storage_used_result->fetch_assoc()['total_storage_used'];
+                $total_storage_used_query->close();
+
+                // Update the user's storage_used field
+                $update_storage_query = $conn->prepare("UPDATE users SET storage_used = ? WHERE id = ?");
+                $update_storage_query->bind_param("di", $total_storage_used, $user_id);
+                $update_storage_query->execute();
+                $update_storage_query->close();
+
                 echo json_encode(['status' => 'success']);
             } else {
                 echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $conn->error]);
@@ -115,14 +196,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Get the folder ID from the URL
 $folder_id = isset($_GET['folder_id']) ? intval($_GET['folder_id']) : 0;
 
-// Fetch user details
-$user_id = $_SESSION['user_id'];
-$user_query = $conn->prepare("SELECT * FROM users WHERE id = ?");
-$user_query->bind_param("i", $user_id);
-$user_query->execute();
-$user = $user_query->get_result()->fetch_assoc();
-$user_query->close();
-
 // Fetch folder details
 $folder_query = $conn->prepare("SELECT folder_name FROM folders WHERE folder_id = ? AND user_id = ?");
 $folder_query->bind_param("ii", $folder_id, $user_id);
@@ -138,6 +211,8 @@ $flashcards_query->execute();
 $flashcards = $flashcards_query->get_result()->fetch_all(MYSQLI_ASSOC);
 $flashcards_query->close();
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">

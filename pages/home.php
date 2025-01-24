@@ -56,6 +56,29 @@ if (isset($_GET['logout'])) {
 $success_message = isset($_GET['success']) ? $_GET['success'] : (isset($_SESSION['success']) ? $_SESSION['success'] : '');
 $error_message = isset($_SESSION['error']) ? $_SESSION['error'] : '';
 unset($_SESSION['success'], $_SESSION['error']);
+
+// Fetch user storage data from the database
+$query = "SELECT storage_used, storage_limit FROM users WHERE id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);  // Use your actual user ID here
+$stmt->execute();
+$stmt->bind_result($storage_used, $storage_limit);
+$stmt->fetch();
+$stmt->close();
+
+$storage_used_mb = $storage_used / 1024;  // KB to MB
+$storage_limit_mb = $storage_limit / 1024;  // KB to MB
+
+// Calculate storage usage percentage
+$storage_percentage = ($storage_used / $storage_limit) * 100;
+
+// Determine notifications based on storage usage
+$storage_warning = '';
+if ($storage_percentage >= 100) {
+    $storage_warning = 'You have reached your storage limit!';
+} elseif ($storage_percentage >= 80) {
+    $storage_warning = 'You are at 80% of your storage limit!';
+}
 ?>
 
 <!DOCTYPE html>
@@ -110,6 +133,20 @@ unset($_SESSION['success'], $_SESSION['error']);
         <div class="bottom-links">
             <a href="privacy_policy.php">Privacy Policy</a>
             <a href="about_website.php">About Website</a>
+        </div>
+        <!-- Storage Progress Bar -->
+        <div class="storage-info">
+            <h2>Storage Usage: <br><?php echo number_format($storage_used_mb, 2); ?> MB / <?php echo number_format($storage_limit_mb, 2); ?> MB</h2>
+            <div class="progress-bar">
+                <div class="progress" style="width: <?php echo $storage_percentage; ?>%;"></div>
+            </div>
+            
+            <!-- Storage Notification -->
+            <?php if ($storage_warning): ?>
+                <div class="storage-notification">
+                    <p><?php echo $storage_warning; ?></p>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -369,19 +406,58 @@ function addFolder() {
                 folderCard.className = 'folder-card';
                 folderCard.setAttribute('data-folder-id', data.folder_id); // Set the folder ID
 
-                folderCard.innerHTML = `
-                    <div class="folder-name">${data.folder_name}</div>
-                    <img src="../assets/folder.png" alt="${data.folder_name}" class="folder-image">
-                    <div class="folder-actions">
-                        <img src="../assets/edit.png" alt="Edit Folder" class="edit-folder" onclick="openEditFolderModal(event, ${data.folder_id}, '${data.folder_name}')">
-                        <img src="../assets/delete.png" alt="Delete Folder" class="delete-folder" onclick="openDeleteFolderModal(event, ${data.folder_id})">
-                    </div>
-                `;
+                // Create the folder-left div
+                const folderLeft = document.createElement('div');
+                folderLeft.className = 'folder-left';
+
+                // Create the folder image
+                const folderImage = document.createElement('img');
+                folderImage.src = "../assets/folder.png";
+                folderImage.alt = data.folder_name;
+                folderImage.className = 'folder-image';
+
+                // Create the folder name
+                const folderNameDiv = document.createElement('div');
+                folderNameDiv.className = 'folder-name';
+                folderNameDiv.textContent = data.folder_name;
+
+                // Append image and name to the folder-left div
+                folderLeft.appendChild(folderImage);
+                folderLeft.appendChild(folderNameDiv);
+
+                // Create the folder-actions div
+                const folderActions = document.createElement('div');
+                folderActions.className = 'folder-actions';
+
+                // Create the edit button
+                const editButton = document.createElement('img');
+                editButton.src = "../assets/edit.png";
+                editButton.alt = "Edit Folder";
+                editButton.className = 'edit-folder';
+                editButton.onclick = () => openEditFolderModal(event, data.folder_id, data.folder_name);
+
+                // Create the delete button
+                const deleteButton = document.createElement('img');
+                deleteButton.src = "../assets/delete.png";
+                deleteButton.alt = "Delete Folder";
+                deleteButton.className = 'delete-folder';
+                deleteButton.onclick = () => openDeleteFolderModal(event, data.folder_id);
+
+                // Append the buttons to the folder-actions div
+                folderActions.appendChild(editButton);
+                folderActions.appendChild(deleteButton);
+
+                // Append folder-left and folder-actions to the folderCard
+                folderCard.appendChild(folderLeft);
+                folderCard.appendChild(folderActions);
 
                 // Add click listener for navigating to the flashcards page
                 folderCard.addEventListener('click', () => openFlashcardsPage(data.folder_id));
 
+                // Append the folderCard to the folderList
                 folderList.appendChild(folderCard);
+
+                // Close the modal and reset the input
                 closeAddFolderModal();
                 document.getElementById('folder-name').value = '';
             } else {
@@ -393,6 +469,7 @@ function addFolder() {
         showAlert('Error', 'Please enter a folder name.', 'error');
     }
 }
+
 
 
 // Variables to track the folder being edited or deleted
