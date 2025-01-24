@@ -19,6 +19,7 @@
     - **Validation: Checks if account exists, incorrect password/username**
 - **Create Account**
     - **Validation: No special characters in name, Unique username, match password**
+    
 - **Dashboard:**
     - **View Account**
     - **Edit Account**:
@@ -31,6 +32,8 @@
     - **Logout**
     - **Privacy Policy Page**
     - **About Page**
+    - **Storage Management Progress Bar**
+
 - **Folder Management**
     - **Create Folder**
         - **Validation: name folder not empty, check duplicate name**
@@ -40,9 +43,10 @@
         - **Validation: confirmation before deletion**
     - **Search Folder**
     - **Link to Flashcards Webpage**
+
 - **Flashcard Management**
     - **Create Flashcard**
-        - **Validation: question and answer fields not empty**
+        - **Validation: question and answer fields not empty, notif when not enough storage**
     - **Edit Flashcard**
         - **Validation: question and answer folder not empty**
     - **Delete Flashcard**
