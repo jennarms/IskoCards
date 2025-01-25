@@ -10,9 +10,7 @@
 
 ---
 
-## Progress Overview:
-
-### Database Structure:
+## Database Structure:
 
 The database for **IskoCards** is designed with three main tables:
 
