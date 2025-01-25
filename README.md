@@ -76,10 +76,10 @@ CREATE TABLE flashcards (
     - **Privacy Policy Page**
     - **About Page**
     - **Storage Management Progress Bar**
-        - **Validation:**
-            - **If 100% filled, will show "You have reached your storage limit!"**
-            - **If 80% filled, will show You are at 80% of your storage limit!**
-            - **In flashcards, page when there is no storage "You have reached your storage limit. Cannot add, edit, or delete flashcards." will be displayed**
+        - **Validations:**
+            - **In dashboard: A note that if 100% filled, will show "You have reached your storage limit!"**
+            - **In dashboard: A note that if 80% filled, will show You are at 80% of your storage limit!**
+            - **In flashcards management: page when there is no storage "You have reached your storage limit. Cannot add, edit, or delete flashcards." will be displayed**
 
 - **Folder Management**
     - **Create Folder**
