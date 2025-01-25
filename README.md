@@ -56,6 +56,9 @@ CREATE TABLE flashcards (
 );
 ```
 
+---
+
+## **APP FEATURES  **
 ### **User Account**:
 - **Login**
     - **Validation: Checks if account exists, incorrect password/username**
