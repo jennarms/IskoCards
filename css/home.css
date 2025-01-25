@@ -392,7 +392,6 @@ header .header-actions img.profile-pic.active {
 #greeting-container h1 {
     font-size: 40px;
     font-weight: bold;
-    margin-bottom: 5px;
 }
 
 #greeting-container p {
@@ -418,9 +417,9 @@ header .header-actions img.profile-pic.active {
 
 .search-bar input {
     width: 100%; /* Make it responsive */
-    max-width: 500px; /* Optional: Limit the maximum width */
+    max-width: 900px; /* Optional: Limit the maximum width */
     padding: 10px;
-    font-size: 16px;
+    font-size: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Subtle shadow */
@@ -442,7 +441,7 @@ header .header-actions img.profile-pic.active {
     background-color: rgba(255, 255, 255, 0.7);
     border-radius: 10px;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1600px;
     height: 600px;
     overflow-y: auto;
     overflow-x: hidden;
@@ -472,7 +471,7 @@ header .header-actions img.profile-pic.active {
     justify-content: space-between;
     align-items: center;
     width: 99%;
-    height: 100px;
+    height: 80px;
     padding: 10px 20px;
     margin: 10px;
     border: 1px solid #000;
@@ -481,6 +480,11 @@ header .header-actions img.profile-pic.active {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease, box-shadow 0.3s ease;
     cursor: pointer;
+}
+
+.folder-card:hover {
+    transform: scale(1.01); /* Slight zoom effect */
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
 }
 
 /* Left Section (Image and Name) */
@@ -499,7 +503,7 @@ header .header-actions img.profile-pic.active {
 
 /* Folder Name */
 .folder-name {
-    font-size: 16px;
+    font-size: 23px;
     font-weight: bold;
     color: #000;
     text-align: left;
@@ -732,6 +736,19 @@ button.cancel, button.confirm {
     background-color: #f8d7da;
     color: #721c24;
     border-radius: 5px;
+}
+
+.summary {
+    background-color: #f6e6b8; /* Softer golden/cream background */
+    color: #6a2c91; /* Softer purple text */
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    font-size: 18px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 40px auto 20px auto; 
+    max-width: 400px;
 }
 
 

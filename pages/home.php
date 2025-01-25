@@ -40,10 +40,95 @@ $sql = "SELECT * FROM users WHERE id = '$user_id'";
 $result = mysqli_query($conn, $sql);
 $user = mysqli_fetch_assoc($result);
 
+// Handle folder deletion
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_folder'])) {
+    $folder_id = $_POST['folder_id'];
+    $delete_folder_sql = "DELETE FROM folders WHERE folder_id = '$folder_id' AND user_id = '$user_id'";
+    mysqli_query($conn, $delete_folder_sql);
+
+    // Recalculate folder and flashcard counts after deletion
+    $folder_sql = "SELECT * FROM folders WHERE user_id = '$user_id'";
+    $folder_result = mysqli_query($conn, $folder_sql);
+    $folders = mysqli_fetch_all($folder_result, MYSQLI_ASSOC);
+
+    // Count the number of folders
+    $folder_count = count($folders);
+
+    // Count the number of flashcards
+    $flashcard_sql = "SELECT COUNT(*) AS flashcard_count FROM flashcards WHERE user_id = '$user_id'";
+    $flashcard_result = mysqli_query($conn, $flashcard_sql);
+    $flashcard_data = mysqli_fetch_assoc($flashcard_result);
+    $flashcard_count = $flashcard_data['flashcard_count'];
+
+    // Generate the summary text for folders
+    if ($folder_count == 1) {
+        $folder_text = "1 folder";
+    } elseif ($folder_count > 1) {
+        $folder_text = "$folder_count folders";
+    } else {
+        $folder_text = "0 folders";
+    }
+
+    // Generate the summary text for flashcards
+    if ($flashcard_count == 1) {
+        $flashcard_text = "1 flashcard";
+    } elseif ($flashcard_count > 1) {
+        $flashcard_text = "$flashcard_count flashcards";
+    } else {
+        $flashcard_text = "0 flashcards";
+    }
+
+    // Combine the two summary texts
+    $summary_text = "You have $folder_text, $flashcard_text in total.";
+    
+    // Set session variable to hold updated summary
+    $_SESSION['summary_text'] = $summary_text;
+
+    // Optionally, redirect to reload the page and display updated summary
+    header("Location: home.php");
+    exit();
+}
+
 // Fetch folders for the user
 $folder_sql = "SELECT * FROM folders WHERE user_id = '$user_id'";
 $folder_result = mysqli_query($conn, $folder_sql);
 $folders = mysqli_fetch_all($folder_result, MYSQLI_ASSOC);
+
+// Count the number of folders
+$folder_count = count($folders);
+
+// Count the number of flashcards
+$flashcard_sql = "SELECT COUNT(*) AS flashcard_count FROM flashcards WHERE user_id = '$user_id'";
+$flashcard_result = mysqli_query($conn, $flashcard_sql);
+$flashcard_data = mysqli_fetch_assoc($flashcard_result);
+$flashcard_count = $flashcard_data['flashcard_count'];
+
+// Generate the summary text for folders
+if ($folder_count == 1) {
+    $folder_text = "1 folder";
+} elseif ($folder_count > 1) {
+    $folder_text = "$folder_count folders";
+} else {
+    $folder_text = "0 folders";
+}
+
+// Generate the summary text for flashcards
+if ($flashcard_count == 1) {
+    $flashcard_text = "1 flashcard";
+} elseif ($flashcard_count > 1) {
+    $flashcard_text = "$flashcard_count flashcards";
+} else {
+    $flashcard_text = "0 flashcards";
+}
+
+// Combine the two summary texts
+$summary_text = "You have $folder_text, $flashcard_text in total.";
+
+// Check if there's an updated summary in the session
+if (isset($_SESSION['summary_text'])) {
+    $summary_text = $_SESSION['summary_text'];
+    unset($_SESSION['summary_text']);
+}
 
 // Handle logout
 if (isset($_GET['logout'])) {
@@ -80,6 +165,7 @@ if ($storage_percentage >= 100) {
     $storage_warning = 'You are at 80% of your storage limit!';
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -233,6 +319,12 @@ if ($storage_percentage >= 100) {
         <h1>Welcome, <?php echo $user['name']; ?>!</h1>
         <p>Retain Knowledge Like Never Before</p>
     </div>
+
+    <!-- summary -->
+    <div class="summary">
+    <p><?php echo htmlspecialchars($summary_text); ?></p>
+    </div>
+
     
     <div class="search-bar">
     <input type="text" id="folder-search" placeholder="Search folders..." />
