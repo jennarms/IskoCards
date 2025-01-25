@@ -19,6 +19,26 @@ $user_query->close();
 $storage_used = $user['storage_used'];
 $storage_limit = $user['storage_limit'];
 
+// Get the folder_id from the URL or set a default value
+$folder_id = isset($_GET['folder_id']) ? intval($_GET['folder_id']) : 0;
+
+// Fetch the total number of flashcards in this folder
+$flashcards_query = $conn->prepare("SELECT COUNT(*) AS total_flashcards FROM flashcards WHERE user_id = ? AND folder_id = ?");
+$flashcards_query->bind_param("ii", $user_id, $folder_id);
+$flashcards_query->execute();
+$flashcards_result = $flashcards_query->get_result()->fetch_assoc();
+$total_flashcards = $flashcards_result['total_flashcards'];
+$flashcards_query->close();
+
+// Prepare the summary text based on the flashcard count
+if ($total_flashcards == 1) {
+    $flashcard_text = "You have 1 flashcard in this folder";
+} elseif ($total_flashcards > 1) {
+    $flashcard_text = "You have $total_flashcards flashcards in this folder";
+} else {
+    $flashcard_text = "You have 0 flashcards in this folder";
+}
+
 // Handle POST requests for adding, editing, and deleting flashcards
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
@@ -274,6 +294,7 @@ $flashcards_query->close();
     <!-- Search Section -->
     <section class="search-bar">
         <input type="text" id="search-input" placeholder="Search flashcard questions..." onkeyup="filterFlashcards()">
+        <span class="flashcard-count"><?php echo $flashcard_text; ?></span>
     </section>
 
     <!-- Main Section -->

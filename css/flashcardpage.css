@@ -80,6 +80,7 @@ header .header-actions img.profile-pic.active {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: 5px;
 }
 
 .top-section .actions button:hover {
@@ -451,15 +452,19 @@ header .header-actions img.profile-pic.active {
 .search-bar {
     margin: 15px; /* Increased margin for better spacing */
     display: flex;
-    justify-content: center; /* Center the search bar */
-    width: 100%;
+    justify-content: space-between; /* Align the search bar and count side by side */
+    align-items: center; /* Vertically align the items */
+    width: 70%;
+    background-color: rgba(106, 44, 145, 0.3);
+    padding: 10px 20px; /* Padding inside the search bar */
+    border-radius: 8px; /* Rounded corners */
 }
 
 .search-bar input {
-    width: 90% !important; /* Force the width to apply */
-    max-width: 800px !important;
+    width: 80%; /* Adjust width to leave space for the flashcard count */
+    max-width: 800px;
     padding: 12px;
-    font-size: 16px;
+    font-size: 18px;
     border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -467,9 +472,25 @@ header .header-actions img.profile-pic.active {
     transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-
 .search-bar input:focus {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow on focus */
-    border-color: #5e2483; /* Highlight border */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); 
+    border-color: #5e2483; 
+    border-width: 1px;
+}
+
+.flashcard-count {
+    font-size: 16px; /* Larger text for visibility */
+    color: white; /* White text for contrast */
+    background-color: #5e2483; /* Elegant purple background */
+    padding: 8px 16px; /* Moderate padding */
+    border-radius: 50px; /* Rounded pill shape */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    margin-left: 20px; /* Space between the search input and count */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600; /* Bold but not overwhelming */
+    text-transform: uppercase; /* Uppercase for emphasis */
+    letter-spacing: 0.5px; /* Slight letter spacing for a clean look */
 }
 
