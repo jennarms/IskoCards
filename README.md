@@ -10,7 +10,7 @@
 
 ---
 
-## Database Structure:
+## DATABASE STRUCTURE:
 
 The database for **IskoCards** is designed with three main tables:
 
@@ -56,7 +56,7 @@ CREATE TABLE flashcards (
 
 ---
 
-## **APP FEATURES  **
+## APP FEATURES
 ### **User Account**:
 - **Login**
     - **Validation: Checks if account exists, incorrect password/username**
