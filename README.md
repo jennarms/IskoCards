@@ -14,6 +14,23 @@
 
 ### Database Structure:
 
+The database for **IskoCards** is designed with three main tables:
+
+#### **Users Table**
+
+```sql
+CREATE TABLE users (
+    id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    profile_picture VARCHAR(255) DEFAULT 'default.jpg',
+    storage_used DECIMAL(10,2) UNSIGNED DEFAULT 0 COMMENT 'Storage used in KB',
+    storage_limit DECIMAL(10,2) UNSIGNED DEFAULT 5120 COMMENT 'Storage limit in KB (default: 5MB)',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NULL
+);
+
+
 ### **User Account**:
 - **Login**
     - **Validation: Checks if account exists, incorrect password/username**
@@ -41,8 +58,9 @@
         - **Validation: name folder not empty, check duplicate name**
     - **Delete Folder**
         - **Validation: confirmation before deletion**
-    - **Search Folder**
+    - **Search Bar: Search Folder**
     - **Link to Flashcards Webpage**
+    - **Summary of Folders and Flashcards**
 
 - **Flashcard Management**
     - **Create Flashcard**
@@ -51,7 +69,8 @@
         - **Validation: question and answer folder not empty**
     - **Delete Flashcard**
         - **Validation: confirmation before deletion**
-    - **Search Flashcard Question**
+    - **Search Bar: Search Flashcard Question**
+    - **Summary of Folders and Flashcards**
     - **Review Flashcard**
         - **Validation: No Flashcards to be reviewed**
         - **Elapsed Time**
