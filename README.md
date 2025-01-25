@@ -86,7 +86,7 @@ CREATE TABLE flashcards (
         - **Validation: confirmation before deletion**
     - **Search Bar: Search Folder**
     - **Link to Flashcards Webpage**
-    - **Summary of Folders and Flashcards**
+    - **Summary of Total Folders and Flashcards**
 
 - **Flashcard Management**
     - **Create Flashcard**
@@ -96,7 +96,7 @@ CREATE TABLE flashcards (
     - **Delete Flashcard**
         - **Validation: confirmation before deletion**
     - **Search Bar: Search Flashcard Question**
-    - **Summary of Folders and Flashcards**
+    - **Summary Flashcards in each Folder**
     - **Review Flashcard**
         - **Validation: No Flashcards to be reviewed**
         - **Elapsed Time**
