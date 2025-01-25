@@ -17,7 +17,6 @@
 The database for **IskoCards** is designed with three main tables:
 
 #### **Users Table**
-
 ```sql
 CREATE TABLE users (
     id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -29,7 +28,10 @@ CREATE TABLE users (
     storage_limit DECIMAL(10,2) UNSIGNED DEFAULT 5120 COMMENT 'Storage limit in KB (default: 5MB)',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NULL
 );
+```
 
+#### **Folders Table**
+```sql
 CREATE TABLE folders (
     folder_id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id INT(11) UNSIGNED NOT NULL,
@@ -37,7 +39,9 @@ CREATE TABLE folders (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
-
+```
+#### **Flashcards Table**
+```sql
 CREATE TABLE flashcards (
     flashcard_id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     folder_id INT(11) UNSIGNED NOT NULL,
@@ -50,7 +54,6 @@ CREATE TABLE flashcards (
     FOREIGN KEY (folder_id) REFERENCES folders(folder_id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
-
 ```
 
 ### **User Account**:
