@@ -15,7 +15,7 @@
 The database for **IskoCards** is designed with three main tables:
 
 #### **Create Database, Use Database**
---**You can set any name for database but in this code this is the one used.**
+- **You can set any name for database but in this code this is the one used.**
 ```sql
 CREATE DATABASE iskocards_db;
 USE iskocards_db;
