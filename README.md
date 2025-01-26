@@ -68,10 +68,10 @@ CREATE TABLE flashcards (
 ### **Landing Page**:
 
 ### **User Account**:
+- **Sign in**
+    - **Validation: No special characters in name, Unique username, match password**
 - **Login**
     - **Validation: Checks if account exists, incorrect password/username**
-- **Create Account**
-    - **Validation: No special characters in name, Unique username, match password**
     
 - **Dashboard:**
     - **View Account**
