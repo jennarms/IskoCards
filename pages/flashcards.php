@@ -237,13 +237,13 @@ $flashcards_query->close();
 <body>
     <!-- Header -->
     <header>
-        <div class="header-actions">
-            <img 
-                src="../uploads/<?php echo !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'Default.jpg'; ?>" 
-                alt="User Profile" 
-                class="profile-pic" 
-                onclick="location.href='home.php'">
-        </div>
+    <div class="header-actions">
+        <img 
+            src="../assets/home.png" 
+            alt="Home Icon" 
+            class="profile-pic" 
+            onclick="location.href='home.php'">
+    </div>
     </header>
 
     <!-- Top Section -->
