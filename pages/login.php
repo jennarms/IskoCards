@@ -20,8 +20,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Password is correct, start session
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
-                header("Location: home.php");
-                exit();
+                $_SESSION['role'] = $user['role']; // Store the role (admin or user)
+
+                // Redirect based on the role
+                if ($user['role'] == 'admin') {
+                    // Redirect to admin dashboard
+                    header("Location: admin_dashboard.php"); // Change to your admin page
+                    exit();
+                } else {
+                    // Redirect to user home page
+                    header("Location: home.php");
+                    exit();
+                }
             } else {
                 // Incorrect username or password
                 $error = "Invalid username or password!";
@@ -33,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

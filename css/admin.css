@@ -1,0 +1,556 @@
+/* General Reset */
+body, h1, h2, h3, p, table {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden; /* Prevent horizontal scrollbars if content overflows */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    height: 100vh;
+    margin: 0; 
+    background-image: url('../assets/Background.png'); 
+    background-size: cover;
+    background-repeat: no-repeat; 
+    background-position: center; 
+}
+
+.container {
+    display: flex;
+    width: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 20%;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Push elements apart */
+    padding: 1em;
+    height: 100vh; /* Full height of the viewport */
+    position: fixed;
+    top: 0; /* Align it to the top of the viewport */
+    left: 0;
+    box-sizing: border-box; /* Ensure padding is included in height calculation */
+}
+/* Admin Profile */
+.admin-profile {
+    text-align: center;
+}
+
+/* Profile Picture */
+.profile-picture {
+    width: 200px !important; /* Force fixed width for the profile picture */
+    height: 200px !important; /* Force fixed height for the profile picture */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+    border-radius: 50%; /* Makes the image circular */
+    margin-bottom: 1em;
+    display: block; /* Ensure it’s displayed as a block */
+    margin-left: auto; /* Center horizontally */
+    margin-right: auto; /* Center horizontally */
+}
+
+/* Admin Name */
+.admin-name {
+    font-size: 1.5em;
+    margin-bottom: 0.5em;
+    text-align: center;
+}
+
+.admin-username {
+  font-size: 1em;
+  margin-bottom: 0.5em;
+  text-align: center;
+}
+
+/* Sidebar Logo Container */
+.sidebar-logo {
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center; /* Center them horizontally */
+  justify-content: flex-start; /* Align everything to the top */
+  width: 100%; /* Full width of the container */
+  margin-top: 1em; /* Add spacing from the top of the sidebar */
+  text-align: center; /* Center text inside */
+}
+
+/* Clock */
+.sidebar-logo .clock {
+  font-size: 1.2em; /* Adjust font size */
+  font-weight: bold; /* Make it stand out */
+  color: #000000; /* Match sidebar theme */
+  margin-bottom: 0.5em; /* Small gap between time and logo */
+}
+
+/* Logo Image */
+.sidebar-logo img {
+  width: 200px; /* Adjust width as needed */
+  height: 200px; /* Keep the image square */
+  object-fit: contain; /* Keep the image proportions */
+}
+
+
+
+  /* Main Content */
+  .main-content {
+    margin-left: 20%;
+    width: 80%;
+    padding: 2em;
+    background-size: cover; /* Make sure the image covers the entire area */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center; /* Center the image */
+    min-height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 100px;
+  }
+  .main-content::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+  
+  header {
+    display: flex;
+    align-items: center; /* Vertically align logo and text */
+    justify-content: space-between; /* Space out logo and logout button */
+  }
+  
+  .logo {
+    width: 200px; /* Increase logo size as needed */
+    height: auto;
+  }
+  
+  header h1 {
+    font-size: 2em;
+    color: #4a148c; /* Purple color */
+    margin: 0.1;
+    padding-left: 0%; 
+  
+  }
+
+  /* Style for Edit Account Button */
+  .edit-btn {
+    background-color: #ffc800;
+    color: #000000;
+    border: none;
+    padding: 0.7em 1em;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+    width: 100%; /* Makes the button take the full width */
+    margin-top: 1em; /* Adds space above the button */
+  }
+  
+  .edit-btn:hover {
+    background-color: #4a148c; /* Darker red on hover */
+    width: 100%; /* Makes the button take the full width */
+    margin-top: 1em; /* Adds space above the button */
+  }
+
+  
+/* Style for Logout Button */
+.logout-button {
+  background-color: #ffffff;
+  color: #000000;
+  border: 2px solid #4a148c;
+  padding: 0.7em 1em; /* Same padding as edit button */
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  width: 100%; /* Makes the button take the full width */
+  margin-top: 1em; /* Adds space above the button */
+}
+
+.logout-button:hover {
+  background-color: #4a148c;
+  color: #ffffff;
+}
+  
+  /* Dashboard Stats */
+  .stats-container {
+    display: flex;
+    gap: 2em;
+    margin-bottom: 2em;
+  }
+
+  .stat-card {
+    flex: 1;
+    background-color: #ffffff; /* Light purple */
+    padding: 1em;
+    text-align: center;
+    border-radius: 5px;
+    border: 2px solid #4a148c;
+  }
+
+  .stat-card h3 {
+    margin-bottom: 0.5em;
+    color: #4a148c;
+  }
+
+  .stat-card p {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+  #stats-section h2 {
+    margin-top: 2em; /* Adjust this value to move the text lower */
+  }
+  
+/* Search Bar */
+.search-bar {
+  margin-bottom: 20px; /* Space below the search bar */
+  display: flex;
+  justify-content: flex-start; /* Aligns the search bar to the left */
+  align-items: center; /* Vertically centers the search bar */
+}
+
+.search-bar input[type="text"] {
+  width: 300px; /* Width of the search bar */
+  padding: 10px; /* Padding inside the search bar */
+  font-size: 16px; /* Font size for the search input */
+  border: 1px solid #4a148c;; /* Border color */
+  border-radius: 5px; /* Rounded corners */
+  margin-right: 10px; /* Space between the search input and button */
+  outline: none; /* Removes the default focus outline */
+}
+
+.search-bar input[type="text"]:focus {
+  border-color: #4a148c; /* Purple border on focus */
+  box-shadow: 0 0 5px rgba(74, 20, 140, 0.5); /* Soft purple glow */
+}
+  
+/* Table UI */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2em;
+}
+
+table th, table td {
+  padding: 0.8em;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+table th {
+  background-color: #4a148c;
+  color: #ffffff;
+}
+
+table tbody tr {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+table tbody tr:nth-child(even) {
+  background-color: #efe2ff;
+}
+
+/* Table Container with Scrollbars */
+.user-container, .flashcard-container {
+  height: 400px; /* Set the height to 500px */
+  overflow-y: auto;  /* Enables vertical scrollbar if content exceeds the height */
+  border: 1px solid #ddd; /* Optional border for the container */
+  border-radius: 5px; /* Optional rounded corners */
+  background-color: rgba(255, 255, 255, 0.7); /* Faded white background (70% opacity) */
+  padding: 10px; /* Optional padding inside the container */
+  width: 100%; /* Ensure it fills the width of the parent container */
+}
+
+.user-management h2,
+.flashcard-management h2 {
+    margin-top: 30px;
+    font-size: 1.5em; /* Optional: Customize the font size */
+    color: #333; /* Optional: Customize the color */
+}
+
+
+/* General button styles for the delete buttons */
+button {
+  background-color: #ffffff;
+  color: black; /* Purple text color */
+  border: 2px solid #ff0011;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+button:hover {
+  background-color: #ff0011;
+  color: #ffffff;
+}
+
+/* Modal Styles */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center; /* Horizontally center content */
+  align-items: center; /* Vertically center content */
+  z-index: 1000;
+}
+
+/* When the modal is active (visible) */
+.modal.show {
+  display: flex; /* Flexbox is required for centering */
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 300px;
+}
+
+.modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.confirm-button {
+  background: #5e2483; /* Purple color */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.confirm-button:hover {
+  background: #4a1e6e; /* Slightly darker purple for hover effect */
+}
+
+.cancel-button {
+  background: #eecf82; /* Yellow color */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancel-button:hover {
+  background: #d4b464; /* Slightly darker yellow for hover effect */
+}
+
+
+
+
+    /* Edit Account Form Styling */
+  .edit-account-form {
+    background-color: #ffffff;
+    padding: 2em;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100px;
+    max-width: 400px;
+    margin: 0 auto;
+    margin-top: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .edit-account-form h3 {
+    text-align: center;
+    margin-bottom: 1em;
+  }
+  
+  .edit-account-form h3 {
+    text-align: center;
+    margin-bottom: 1em;
+  }
+  
+  .edit-account-form label {
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin: 1em 0 0.5em;
+  }
+  
+  .edit-account-form input {
+    width: 100%; 
+    padding: 10px;
+    margin-bottom: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .edit-account-form.button-container {
+    display: flex;
+    justify-content: space-between; /* Add space between the buttons */
+    width: 100%;
+  }
+  
+  .edit-account-form button {
+    background-color: #4a148c;
+    color: #ffffff;
+    border: none;
+    padding: 0.7em 1em;
+    cursor: pointer;
+    width: 48%;
+    margin-top: 1em;
+  }
+  
+  .edit-account-form button:hover {
+    background-color: #d32f2f; 
+  }
+  
+  /* Cancel Button Specific Styling */
+  #cancel-edit-button {
+    background-color: #ff4d4d;
+    color: #fff;
+    border: none;
+  }
+  
+  #cancel-edit-button:hover {
+    background-color: #d32f2f; 
+  }
+  
+  /* Centering the Edit Account Form */
+  .edit-account-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center content horizontally */
+      justify-content: center; /* Center content vertically */
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 400px; /* Max width for the form */
+      width: 100%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); /* Center the form */
+      display: none; /* Initially hidden */
+      border: 2px solid yellow;
+    }
+    
+    /* Profile Picture */
+    .edit-account-form input[type="file"] {
+      margin-bottom: 1em;
+      display: block;
+      text-align: center;
+    }
+    
+    .profile-picture {
+      display: block;
+      margin: 0 auto 1em; /* Center the profile picture horizontally */
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover; /* Ensures the image fits the circle without distortion */
+    }
+    
+    /* Label and Input Field Styles */
+    .edit-account-form label {
+      width: 100%;
+      margin-bottom: 0.5em;
+      text-align: left;
+    }
+    
+    .edit-account-form input {
+      width: 95%; 
+      padding: 8px; 
+      margin-bottom: 1em;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      text-align: center;
+    }
+  
+    /* Button Styles */
+    .edit-account-form button {
+      padding: 10px 20px;
+      background-color: #4a148c;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%; /* Ensure the button takes the full width */
+    }
+    
+    .edit-account-form button:hover {
+      background-color: #6a1b9a;
+    }
+    
+/* Style for Modal (Delete User Modal) */
+.deletemodal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center; /* Horizontally center content */
+  align-items: center; /* Vertically center content */
+  z-index: 1000;
+}
+
+.deletemodal.show {
+  display: flex; /* Show when modal is active */
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px; /* Fixed width for the modal */
+  text-align: center;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+button.confirm-button,
+button.cancel-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+button.confirm-button {
+  background-color: red;
+  color: white;
+}
+
+button.cancel-button {
+  background-color: gray;
+  color: white;
+}
+
+button.confirm-button:hover,
+button.cancel-button:hover {
+  opacity: 0.8;
+}
+
