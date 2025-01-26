@@ -102,52 +102,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Edit Flashcard
     if ($action === 'edit') {
         $flashcard_id = intval($_POST['flashcard_id'] ?? 0);
-        $user_id = $_SESSION['user_id']; // Ensure user_id is set
+        $user_id = $_SESSION['user_id'];
         $question = trim($_POST['question'] ?? '');
         $answer = trim($_POST['answer'] ?? '');
-
+    
         if ($flashcard_id > 0 && !empty($question) && !empty($answer)) {
-            // Calculate the size of the flashcard in KB
+            // Fetch the current size of the flashcard
+            $current_flashcard_query = $conn->prepare("SELECT size_kb FROM flashcards WHERE flashcard_id = ? AND user_id = ?");
+            $current_flashcard_query->bind_param("ii", $flashcard_id, $user_id);
+            $current_flashcard_query->execute();
+            $current_flashcard = $current_flashcard_query->get_result()->fetch_assoc();
+            $current_size_kb = $current_flashcard['size_kb'] ?? 0;
+            $current_flashcard_query->close();
+    
+            // Calculate new size
             $flashcard_content = $question . $answer;
-            $size_bytes = strlen($flashcard_content);  // Get size in bytes
-            $size_kb = $size_bytes / 1024;  // Convert bytes to KB
-
-            // Check if updating this flashcard will exceed the storage limit
-            if ($storage_used + $size_kb > $storage_limit) {
+            $size_bytes = strlen($flashcard_content);
+            $size_kb = $size_bytes / 1024;
+    
+            // Check storage limit
+            if ($storage_used - $current_size_kb + $size_kb > $storage_limit) {
                 echo json_encode(['status' => 'error', 'message' => 'Updating this flashcard will exceed your storage limit.']);
                 exit();
             }
-
-            // Update flashcard in the database
+    
+            // Update flashcard
             $query = $conn->prepare("UPDATE flashcards SET question = ?, answer = ?, size_kb = ? WHERE flashcard_id = ? AND user_id = ?");
-            $query->bind_param("ssdi", $question, $answer, $size_kb, $flashcard_id, $user_id);
-
+            $query->bind_param("ssdii", $question, $answer, $size_kb, $flashcard_id, $user_id);
+    
             if ($query->execute()) {
-                // Recalculate the total storage used by the user
-                $total_storage_used_query = $conn->prepare("SELECT SUM(size_kb) AS total_storage_used FROM flashcards WHERE user_id = ?");
-                $total_storage_used_query->bind_param("i", $user_id);
-                $total_storage_used_query->execute();
-                $total_storage_used_result = $total_storage_used_query->get_result();
-                $total_storage_used = $total_storage_used_result->fetch_assoc()['total_storage_used'];
-                $total_storage_used_query->close();
-
-                // Update the user's storage_used field
-                $update_storage_query = $conn->prepare("UPDATE users SET storage_used = ? WHERE id = ?");
-                $update_storage_query->bind_param("di", $total_storage_used, $user_id);
-                $update_storage_query->execute();
-                $update_storage_query->close();
-
                 echo json_encode(['status' => 'success']);
             } else {
                 echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $conn->error]);
             }
-
             $query->close();
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Invalid input.']);
         }
         exit();
     }
+    
 
     // Delete Flashcard
     if ($action === 'delete') {
@@ -231,8 +225,6 @@ $flashcards_query->execute();
 $flashcards = $flashcards_query->get_result()->fetch_all(MYSQLI_ASSOC);
 $flashcards_query->close();
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -442,29 +434,40 @@ $flashcards_query->close();
         }
 
         function saveEditedFlashcard() {
-            const question = document.getElementById('edit-question').value.trim();
-            const answer = document.getElementById('edit-answer').value.trim();
-            const flashcardId = window.flashcardToEdit;
+        const question = document.getElementById('edit-question').value.trim();
+        const answer = document.getElementById('edit-answer').value.trim();
+        const flashcardId = window.flashcardToEdit;
 
-            if (question && answer) {
-                fetch(window.location.href, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: `action=edit&flashcard_id=${flashcardId}&question=${encodeURIComponent(question)}&answer=${encodeURIComponent(answer)}`
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        location.reload();
-                    } else {
-                        showAlert('Error saving flashcard: ' + data.message);
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-            } else {
-                showAlert('Please fill in both fields.');
-            }
+        console.log("Saving flashcard: ", question, answer); // Debugging line
+
+        if (question && answer) {
+            const requestData = `action=edit&flashcard_id=${flashcardId}&question=${encodeURIComponent(question)}&answer=${encodeURIComponent(answer)}`;
+            console.log("Sending request data: ", requestData); // Log request data
+            
+            fetch(window.location.href, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: requestData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Log the response to check if it's successful
+                if (data.status === 'success') {
+                    showAlert('Flashcard updated successfully!'); // Show success alert
+                    setTimeout(() => location.reload(), 1500); // Reload after 1.5 seconds to allow user to see the message
+                } else {
+                    showAlert('Error saving flashcard: ' + data.message, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showAlert('An unexpected error occurred. Please try again.', 'error');
+            });
+        } else {
+            showAlert('Please fill in both fields.', 'warning');
         }
+    }
+
 
         function deleteFlashcard(flashcardId) {
             document.getElementById('delete-flashcard-modal').style.display = 'flex';
