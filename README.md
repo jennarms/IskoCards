@@ -57,6 +57,9 @@ CREATE TABLE flashcards (
 ---
 
 ## APP FEATURES
+
+### **Landing Page**:
+
 ### **User Account**:
 - **Login**
     - **Validation: Checks if account exists, incorrect password/username**
