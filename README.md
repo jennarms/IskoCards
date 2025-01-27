@@ -122,9 +122,9 @@ VALUES ('IskoCards Admin', 'iskocardsadmin', 'paste-generated-hashed-here', 'adm
 
 - **Flashcard Management**
     - **Create Flashcard**
-        - **Validation: question and answer fields not empty, notif when not enough storage**
+        - **Validation: question and answer fields not empty, either one of fields are empty, notif when not enough storage**
     - **Edit Flashcard**
-        - **Validation: question and answer folder not empty**
+        - **Validation: question and answer folder not empty, either one of fields are empty,**
     - **Delete Flashcard**
         - **Validation: confirmation before deletion**
     - **Search Bar: Search Flashcard Question**
@@ -136,6 +136,7 @@ VALUES ('IskoCards Admin', 'iskocardsadmin', 'paste-generated-hashed-here', 'adm
         - **Preview and Next**
         - **Keyboard Shortcuts**
         - **Info button**
+        - **End Review**
 
 ### Admin Account:
 - **Sidebar**
