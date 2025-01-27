@@ -291,23 +291,24 @@ $flashcards_query->close();
 
     <!-- Main Section -->
     <section class="main-section">
-        <div class="flashcard-container">
-        <?php foreach ($flashcards as $index => $flashcard): ?>
-            <div class="flashcard-item">
-                <span>Question <?php echo $index + 1; ?></span>
-                <p class="question"><?php echo htmlspecialchars($flashcard['question']); ?></p>
-                <div class="actions">
-                    <button onclick="editFlashcard(<?php echo $flashcard['flashcard_id']; ?>)">
-                        <img src="../assets/edit.png" alt="Edit" style="width: 20px; height: 20px;">
-                    </button>
-                    <button onclick="deleteFlashcard(<?php echo $flashcard['flashcard_id']; ?>)">
-                        <img src="../assets/delete.png" alt="Delete" style="width: 20px; height: 20px;">
-                    </button>
+        <div class="flashcard-container" id="flashcard-container">
+            <?php foreach ($flashcards as $index => $flashcard): ?>
+                <div class="flashcard-item">
+                    <span>Question <?php echo $index + 1; ?></span>
+                    <p class="question"><?php echo htmlspecialchars($flashcard['question']); ?></p>
+                    <div class="actions">
+                        <button onclick="editFlashcard(<?php echo $flashcard['flashcard_id']; ?>)">
+                            <img src="../assets/edit.png" alt="Edit" style="width: 20px; height: 20px;">
+                        </button>
+                        <button onclick="deleteFlashcard(<?php echo $flashcard['flashcard_id']; ?>)">
+                            <img src="../assets/delete.png" alt="Delete" style="width: 20px; height: 20px;">
+                        </button>
+                    </div>
                 </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
+            <?php endforeach; ?>
+        </div>
     </section>
+
 
     <!-- Add Flashcard Modal -->
     <div id="add-flashcard-modal" class="modal">
@@ -510,6 +511,19 @@ $flashcards_query->close();
         }
     });
 }
+function toggleFlashcardContainer() {
+    const flashcardContainer = document.getElementById('flashcard-container');
+    const flashcards = flashcardContainer.querySelectorAll('.flashcard-item');
+    
+    if (flashcards.length === 0) {
+        flashcardContainer.style.display = 'none'; // Hide container if no flashcards
+    } else {
+        flashcardContainer.style.display = 'flex'; // Show container if flashcards exist
+    }
+}
+
+// Call the function on page load or when flashcards are updated
+document.addEventListener('DOMContentLoaded', toggleFlashcardContainer);
 
     </script>
 </body>
