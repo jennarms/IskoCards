@@ -477,14 +477,13 @@ header .header-actions img.profile-pic.active {
     border: 1px solid #000;
     border-radius: 10px;
     background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Initial shadow */
+    transition: box-shadow 0.3s ease; /* Smooth transition for shadow */
     cursor: pointer;
 }
 
 .folder-card:hover {
-    transform: scale(1.01); /* Slight zoom effect */
-    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5); /* Enhance shadow effect on hover */
 }
 
 /* Left Section (Image and Name) */
