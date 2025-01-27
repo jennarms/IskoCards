@@ -60,6 +60,22 @@ CREATE TABLE flashcards (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 ```
+---
+
+## ADMIN MUST BE INSERTED MANUALLY:
+- **Run PHP Server "generate_hash.php"**
+![Run PHP Server "generate_hash.php](https://raw.githubusercontent.com/jennarms/IskoCards/refs/heads/main/Github%20Demo%20Pics/Insert%20Admin%201.png)
+
+-**Paste the generated hashed password in the insert into command**
+![Paste Hashed to comman](https://raw.githubusercontent.com/jennarms/IskoCards/refs/heads/main/Github%20Demo%20Pics/Insert%20Admin%202.png)
+
+- **Insert Into table**
+```sql
+INSERT INTO users (name, username, password, role) 
+VALUES ('IskoCards Admin', 'iskocardsadmin', 'paste-generated-hashed-here', 'admin');
+```
+
+-**Run SQL Command, check if admin is inserted**
 
 ---
 
@@ -122,8 +138,30 @@ CREATE TABLE flashcards (
         - **Info button**
 
 ### Admin Account:
-- **UI Developed** (Still up for further development)
+- **Sidebar**
+    - **Profile Info**
+    - **Edit Account Feature**
+        - **Change Profile Picture**
+            - **Validation: There must be an attatched pic**
+        - **Edit Name**
+            - **Validation: no special characters aside from letters, spaces, periods and dashes**
+        - **Edit Username**
+            - **Validation: Unique username**
+        - **Edit Password**
+            - **Validation: Match password**
+    - **Logout**
+        - **Validation: Confirm Logout**
+    - **Real Time Clock**
 
+- **Dashboard**
+    - **Dashboard Stats**
+        - **Display number of total users and flashcard**
+    - **User Management**
+        - **Users search**
+        - **View users list table**
+        - **Delete user/s**
+    - **Flashcard Management**
+        - **Flashcards search**
+        - **View flashcards list table**
+        - **Delete flashcards/s**
 ---
-
-✨ Stay tuned for more updates! ✨
