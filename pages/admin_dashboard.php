@@ -8,6 +8,33 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     exit();
 }
 
+// Assuming the logged-in user's ID is stored in the session
+$user_id = $_SESSION['user_id'] ?? null; // Replace 'user_id' with your session variable
+
+if ($user_id) {
+    // Query to fetch admin details by role
+    $query = "SELECT name, username, profile_picture FROM users WHERE id = ? AND role = 'admin'";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $admin = $result->fetch_assoc();
+        $admin_name = htmlspecialchars($admin['name']);
+        $admin_username = htmlspecialchars($admin['username']);
+        $profile_picture = htmlspecialchars($admin['profile_picture']);
+    } else {
+        $admin_name = "Unknown Admin";
+        $admin_username = "Unknown Username";
+        $profile_picture = "../uploads/default.jpg"; // Default profile picture
+    }
+} else {
+    $admin_name = "Not Logged In";
+    $admin_username = "N/A";
+    $profile_picture = "../uploads/default.jpg"; // Default profile picture
+}
+
 // Fetch user count
 $query = "SELECT COUNT(*) AS user_count FROM users";
 $result = mysqli_query($conn, $query);
@@ -68,6 +95,8 @@ $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
 // Modify the query to include the search condition
 $query_flashcards = "SELECT * FROM flashcards WHERE flashcard_id LIKE '%$searchTerm%'";
 $result_flashcards = mysqli_query($conn, $query_flashcards);
+
+
 ?>
 
 
@@ -86,8 +115,8 @@ $result_flashcards = mysqli_query($conn, $query_flashcards);
             <div class="profile">
                 <img src="../uploads/Default.jpg" alt="Profile Picture" class="profile-picture">
                 <div class="profile-info">
-                    <p class="admin-name">Admin Name</p>
-                    <p class="admin-username">Admin Username</p>
+                    <p class="admin-name"><?php echo $admin_name; ?></p>
+                    <p class="admin-username"><?php echo $admin_username; ?></p>
                     <button class="edit-btn" id="editBtn">Edit Account</button>
                     <button class="logout-button" onclick="logout()">Logout</button>
                 </div>
@@ -225,6 +254,59 @@ $result_flashcards = mysqli_query($conn, $query_flashcards);
 
         </div>
     </div>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-modal" class="confirmation-modal">
+        <div class="confirmation-content">
+            <p class="confirmation-header">Are you sure you want to log out?</p>
+            <div class="confirmation-buttons">
+                <button class="confirm" onclick="confirmLogout()">Log Out</button>
+                <button class="cancel" onclick="closeLogoutModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+        <!-- Edit Account Form for Admin (Initially Hidden) -->
+        <div id="edit-account-form" class="edit-account-form" style="display: none;">
+            <h3>Edit Admin Profile</h3>
+            
+            <!-- Profile Picture -->
+            <form action="updateadmin.php" method="POST" enctype="multipart/form-data">
+            <label for="profile_picture">Change Profile Picture:</label>
+            <input type="file" name="profile_picture" id="profile_picture">
+            <button type="submit">Update Profile Picture</button>
+        </form>
+
+
+        <!-- Name Update -->
+        <form action="updateadmin.php" method="POST">
+            <label for="name">Update Name:</label>
+            <input type="text" name="name" id="name" value="<?php echo $admin_name; ?>">
+            <button type="submit">Update Name</button>
+        </form>
+
+        <!-- Username Update -->
+        <form action="updateadmin.php" method="POST">
+            <label for="username">Update Username:</label>
+            <input type="text" name="username" id="username" value="<?php echo $admin_username; ?>">
+            <button type="submit">Update Username</button>
+        </form>
+
+        <!-- Password Update -->
+        <form action="updateadmin.php" method="POST">
+            <label for="new_password">New Password:</label>
+            <input type="password" name="new_password" id="new_password">
+            <label for="confirm_password">Confirm Password:</label>
+            <input type="password" name="confirm_password" id="confirm_password">
+            <button type="submit">Update Password</button>
+        </form>
+
+        <!-- Close Button -->
+        <button type="button" id="close-edit-profile-btn">Close</button>
+    </div>
+
+
+
     <script>
 
     // Real-time clock
@@ -241,61 +323,61 @@ $result_flashcards = mysqli_query($conn, $query_flashcards);
     updateClock(); // Initial call to set the clock immediately
 
     // Modal handling and delete user
-const modal = document.getElementById("delete-user-modal");
-const confirmDeleteBtn = document.getElementById("confirm-delete");
-const cancelDeleteBtn = document.getElementById("cancel-delete");
-let userIdToDelete = null;
+    const modal = document.getElementById("delete-user-modal");
+    const confirmDeleteBtn = document.getElementById("confirm-delete");
+    const cancelDeleteBtn = document.getElementById("cancel-delete");
+    let userIdToDelete = null;
 
-// Open modal when delete button is clicked
-document.querySelectorAll(".delete-button").forEach(button => {
-    button.addEventListener("click", function() {
-        userIdToDelete = this.getAttribute("data-user-id");
-        modal.classList.add("show");
-        document.getElementById("user-info").textContent = `User ID: ${userIdToDelete}`;
-    });
-});
-
-// Close modal on cancel
-cancelDeleteBtn.onclick = () => {
-    modal.classList.remove("show");
-};
-
-// Confirm deletion and update table dynamically
-confirmDeleteBtn.onclick = () => {
-    if (userIdToDelete) {
-        const formData = new FormData();
-        formData.append("delete_user_id", userIdToDelete);
-
-        // Send delete request to the server using fetch
-        fetch(window.location.href, {
-            method: "POST",
-            body: formData,
-        })
-        .then(response => response.text())  // Parse the response as plain text
-        .then(data => {
-            const [status, message] = data.split('|');  // Split by the delimiter
-
-            // Show alert based on the response status
-            if (status === "success") {
-                alert("Success: " + message);  // Show success message
-                
-                // Remove the deleted user from the table
-                const row = document.querySelector(`tr[data-user-id="${userIdToDelete}"]`);
-                if (row) {
-                    row.remove(); // Remove the row from the table
-                }
-            } else {
-                alert("Error: " + message);  // Show error message
-            }
-        })
-        .catch(error => {
-            alert("Error", "An unexpected error occurred: " + error, "error");
+    // Open modal when delete button is clicked
+    document.querySelectorAll(".delete-button").forEach(button => {
+        button.addEventListener("click", function() {
+            userIdToDelete = this.getAttribute("data-user-id");
+            modal.classList.add("show");
+            document.getElementById("user-info").textContent = `User ID: ${userIdToDelete}`;
         });
+    });
 
-        // Close modal
-        modal.style.display = "none";
-    }
-};
+    // Close modal on cancel
+    cancelDeleteBtn.onclick = () => {
+        modal.classList.remove("show");
+    };
+
+    // Confirm deletion and update table dynamically
+    confirmDeleteBtn.onclick = () => {
+        if (userIdToDelete) {
+            const formData = new FormData();
+            formData.append("delete_user_id", userIdToDelete);
+
+            // Send delete request to the server using fetch
+            fetch(window.location.href, {
+                method: "POST",
+                body: formData,
+            })
+            .then(response => response.text())  // Parse the response as plain text
+            .then(data => {
+                const [status, message] = data.split('|');  // Split by the delimiter
+
+                // Show alert based on the response status
+                if (status === "success") {
+                    alert("Success: " + message);  // Show success message
+                    
+                    // Remove the deleted user from the table
+                    const row = document.querySelector(`tr[data-user-id="${userIdToDelete}"]`);
+                    if (row) {
+                        row.remove(); // Remove the row from the table
+                    }
+                } else {
+                    alert("Error: " + message);  // Show error message
+                }
+            })
+            .catch(error => {
+                alert("Error", "An unexpected error occurred: " + error, "error");
+            });
+
+            // Close modal
+            modal.style.display = "none";
+        }
+    };
 
 
     // Search users function
@@ -342,61 +424,93 @@ confirmDeleteBtn.onclick = () => {
     }
 
     // Modal handling and delete flashcard
-const flashcardModal = document.getElementById("delete-flashcard-modal");
-const confirmDeleteFlashcardBtn = document.getElementById("confirm-delete-flashcard");
-const cancelDeleteFlashcardBtn = document.getElementById("cancel-delete-flashcard");
-let flashcardIdToDelete = null;
+    const flashcardModal = document.getElementById("delete-flashcard-modal");
+    const confirmDeleteFlashcardBtn = document.getElementById("confirm-delete-flashcard");
+    const cancelDeleteFlashcardBtn = document.getElementById("cancel-delete-flashcard");
+    let flashcardIdToDelete = null;
 
-// Open modal when delete button is clicked
-document.querySelectorAll(".delete-flashcard-button").forEach(button => {
-    button.addEventListener("click", function() {
-        flashcardIdToDelete = this.getAttribute("data-flashcard-id");
-        flashcardModal.classList.add("show");
-        document.getElementById("flashcard-info").textContent = `Flashcard ID: ${flashcardIdToDelete}`;
-    });
-});
-
-// Close modal on cancel
-cancelDeleteFlashcardBtn.onclick = () => {
-    flashcardModal.classList.remove("show");
-};
-
-// Confirm deletion and update table dynamically
-confirmDeleteFlashcardBtn.onclick = () => {
-    if (flashcardIdToDelete) {
-        const formData = new FormData();
-        formData.append("delete_flashcard_id", flashcardIdToDelete);
-
-        // Send delete request to the server using fetch
-        fetch(window.location.href, {
-            method: "POST",
-            body: formData,
-        })
-        .then(response => response.text())  // Parse the response as plain text
-        .then(data => {
-            const [status, message] = data.split('|');  // Split by the delimiter
-
-            // Show alert based on the response status
-            if (status === "success") {
-                alert("Success: " + message);  // Show success message
-                
-                // Remove the deleted flashcard from the table
-                const row = document.querySelector(`tr[data-flashcard-id="${flashcardIdToDelete}"]`);
-                if (row) {
-                    row.remove(); // Remove the row from the table
-                }
-            } else {
-                alert("Error: " + message);  // Show error message
-            }
-        })
-        .catch(error => {
-            alert("Error", "An unexpected error occurred: " + error, "error");
+    // Open modal when delete button is clicked
+    document.querySelectorAll(".delete-flashcard-button").forEach(button => {
+        button.addEventListener("click", function() {
+            flashcardIdToDelete = this.getAttribute("data-flashcard-id");
+            flashcardModal.classList.add("show");
+            document.getElementById("flashcard-info").textContent = `Flashcard ID: ${flashcardIdToDelete}`;
         });
+    });
 
-        // Close modal
-        flashcardModal.style.display = "none";
+    // Close modal on cancel
+    cancelDeleteFlashcardBtn.onclick = () => {
+        flashcardModal.classList.remove("show");
+    };
+
+    // Confirm deletion and update table dynamically
+    confirmDeleteFlashcardBtn.onclick = () => {
+        if (flashcardIdToDelete) {
+            const formData = new FormData();
+            formData.append("delete_flashcard_id", flashcardIdToDelete);
+
+            // Send delete request to the server using fetch
+            fetch(window.location.href, {
+                method: "POST",
+                body: formData,
+            })
+            .then(response => response.text())  // Parse the response as plain text
+            .then(data => {
+                const [status, message] = data.split('|');  // Split by the delimiter
+
+                // Show alert based on the response status
+                if (status === "success") {
+                    alert("Success: " + message);  // Show success message
+                    
+                    // Remove the deleted flashcard from the table
+                    const row = document.querySelector(`tr[data-flashcard-id="${flashcardIdToDelete}"]`);
+                    if (row) {
+                        row.remove(); // Remove the row from the table
+                    }
+                } else {
+                    alert("Error: " + message);  // Show error message
+                }
+            })
+            .catch(error => {
+                alert("Error", "An unexpected error occurred: " + error, "error");
+            });
+
+            // Close modal
+            flashcardModal.style.display = "none";
+        }
+    };
+
+    /*edit acccount form */
+        document.getElementById("editBtn").addEventListener("click", function() {
+        // Show the edit account form
+        document.getElementById("edit-account-form").style.display = "block";
+    });
+
+
+    document.getElementById('close-edit-profile-btn').addEventListener('click', function() {
+        // Hide the form and reset any input values if desired
+        document.getElementById('edit-account-form').style.display = "none";
+        
+        // Optional: Reset form values when it's closed (if needed)
+        document.getElementById('edit-account-form').reset();
+    });
+
+
+
+    // Function to display the logout modal
+    function logout() {
+        document.getElementById('logout-modal').style.display = 'flex';
     }
-};
+
+    // Function to close the logout modal
+    function closeLogoutModal() {
+        document.getElementById('logout-modal').style.display = 'none';
+    }
+
+    // Function to handle logout confirmation
+    function confirmLogout() {
+        window.location.href = '../index.php';
+    }
 
     </script>
 </body>
