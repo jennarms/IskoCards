@@ -491,8 +491,7 @@ button:hover {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  width: 48%; /* Adjust button width */
-  margin-right: 4%; /* Add some space between the buttons */
+  width: 100%; /* Adjust button width */
 }
 
 .edit-account-form button:last-child {
@@ -500,7 +499,31 @@ button:hover {
 }
 
 .edit-account-form button:hover {
-  background-color: #6a1b9a;
+  background-color: #eecf82;
+  color: #000;
+}
+
+/* Close button */
+#close-edit-profile-btn {
+  background-color: #f44336;
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px; /* Keep this padding for better appearance */
+  border: none;
+  cursor: pointer;
+  display: flex; /* Ensure it is treated as a flex item */
+  align-items: center; /* Vertically align content */
+  justify-content: center; /* Horizontally align content */
+  margin: 10px auto 0 auto; /* Add top margin to create space */
+  width: auto; /* Allow content-based width */
+}
+
+#close-edit-profile-btn:hover {
+  background-color: #e53935;
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Adds a subtle shadow */
+  transform: translateY(-2px); /* Lifts the button slightly */
+  transition: all 0.3s ease; /* Smooth transition */
 }
 
 /* Error Message Styling */
