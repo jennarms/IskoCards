@@ -63,19 +63,19 @@ CREATE TABLE flashcards (
 ---
 
 ## ADMIN MUST BE INSERTED MANUALLY:
-- **Run PHP Server "generate_hash.php"**
+-- **Run PHP Server "generate_hash.php"**
 ![Run PHP Server "generate_hash.php](https://raw.githubusercontent.com/jennarms/IskoCards/refs/heads/main/Github%20Demo%20Pics/Insert%20Admin%201.png)
 
--**Paste the generated hashed password in the insert into command**
+-- **Paste the generated hashed password in the insert into command**
 ![Paste Hashed to comman](https://raw.githubusercontent.com/jennarms/IskoCards/refs/heads/main/Github%20Demo%20Pics/Insert%20Admin%202.png)
 
-- **Insert Into table**
+-- **Insert Into table**
 ```sql
 INSERT INTO users (name, username, password, role) 
 VALUES ('IskoCards Admin', 'iskocardsadmin', 'paste-generated-hashed-here', 'admin');
 ```
 
--**Run SQL Command, check if admin is inserted**
+-- **Run SQL Command, check if admin is inserted**
 
 ---
 
