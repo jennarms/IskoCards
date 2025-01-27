@@ -11,6 +11,28 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 // Assuming the logged-in user's ID is stored in the session
 $user_id = $_SESSION['user_id'] ?? null; // Replace 'user_id' with your session variable
 
+
+if (isset($_POST['check_username']) && $_POST['check_username'] === 'true') {
+    // Get the username from the POST request
+    $username = $_POST['username'];
+    
+    // Prepare a query to check if the username already exists
+    $query = "SELECT COUNT(*) AS username_count FROM users WHERE username = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data = $result->fetch_assoc();
+
+    // If the username exists, return a response
+    if ($data['username_count'] > 0) {
+        echo json_encode(['exists' => true]); // Username exists
+    } else {
+        echo json_encode(['exists' => false]); // Username does not exist
+    }
+    exit(); // End the script here after sending the response
+}
+
 if ($user_id) {
     // Query to fetch admin details by role
     $query = "SELECT name, username, profile_picture FROM users WHERE id = ? AND role = 'admin'";
@@ -34,6 +56,8 @@ if ($user_id) {
     $admin_username = "N/A";
     $profile_picture = "../uploads/default.jpg"; // Default profile picture
 }
+
+
 
 // Fetch user count
 $query = "SELECT COUNT(*) AS user_count FROM users";
@@ -113,7 +137,7 @@ $result_flashcards = mysqli_query($conn, $query_flashcards);
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="profile">
-                <img src="../uploads/Default.jpg" alt="Profile Picture" class="profile-picture">
+                <img src="../uploads/<?php echo $profile_picture; ?>" alt="Profile Picture" class="profile-picture">
                 <div class="profile-info">
                     <p class="admin-name"><?php echo $admin_name; ?></p>
                     <p class="admin-username"><?php echo $admin_username; ?></p>
@@ -135,7 +159,6 @@ $result_flashcards = mysqli_query($conn, $query_flashcards);
 
             <!-- Dashboard Stats -->
             <section id="stats-section">
-            <h2>Dashboard</h2>
             <div class="stats-container">
                 <div class="stat-card">
                 <h3>Number of Users</h3>
@@ -266,44 +289,48 @@ $result_flashcards = mysqli_query($conn, $query_flashcards);
         </div>
     </div>
 
-        <!-- Edit Account Form for Admin (Initially Hidden) -->
-        <div id="edit-account-form" class="edit-account-form" style="display: none;">
-            <h3>Edit Admin Profile</h3>
-            
-            <!-- Profile Picture -->
-            <form action="updateadmin.php" method="POST" enctype="multipart/form-data">
-            <label for="profile_picture">Change Profile Picture:</label>
-            <input type="file" name="profile_picture" id="profile_picture">
-            <button type="submit">Update Profile Picture</button>
-        </form>
+       <!-- Edit Account Form for Admin (Initially Hidden) -->
+<div id="edit-account-form" class="edit-account-form" style="display: none;">
+    <h3>Edit Admin Profile</h3>
 
+    <!-- Profile Picture -->
+    <form id="profile-picture-form" action="updateadmin.php" method="POST" enctype="multipart/form-data">
+        <label for="profile_picture">Change Profile Picture:</label>
+        <input type="file" name="profile_picture" id="profile_picture">
+        <span id="profile-picture-error" class="error-message"></span> <!-- Error message -->
+        <button type="submit">Update Profile Picture</button>
+    </form>
 
-        <!-- Name Update -->
-        <form action="updateadmin.php" method="POST">
-            <label for="name">Update Name:</label>
-            <input type="text" name="name" id="name" value="<?php echo $admin_name; ?>">
-            <button type="submit">Update Name</button>
-        </form>
+    <!-- Name Update -->
+    <form id="name-form" action="updateadmin.php" method="POST">
+        <label for="name">Update Name:</label>
+        <input type="text" name="name" id="name" value="<?php echo $admin_name; ?>">
+        <span id="name-error" class="error-message"></span> <!-- Error message -->
+        <button type="submit">Update Name</button>
+    </form>
 
-        <!-- Username Update -->
-        <form action="updateadmin.php" method="POST">
-            <label for="username">Update Username:</label>
-            <input type="text" name="username" id="username" value="<?php echo $admin_username; ?>">
-            <button type="submit">Update Username</button>
-        </form>
+    <!-- Username Update -->
+    <form id="username-form" action="updateadmin.php" method="POST">
+        <label for="username">Update Username:</label>
+        <input type="text" name="username" id="username" value="<?php echo $admin_username; ?>">
+        <span id="username-error" class="error-message"></span> <!-- Error message -->
+        <button type="submit">Update Username</button>
+    </form>
 
-        <!-- Password Update -->
-        <form action="updateadmin.php" method="POST">
-            <label for="new_password">New Password:</label>
-            <input type="password" name="new_password" id="new_password">
-            <label for="confirm_password">Confirm Password:</label>
-            <input type="password" name="confirm_password" id="confirm_password">
-            <button type="submit">Update Password</button>
-        </form>
+    <!-- Password Update -->
+    <form id="password-form" action="updateadmin.php" method="POST">
+        <label for="new_password">New Password:</label>
+        <input type="password" name="new_password" id="new_password">
+        <label for="confirm_password">Confirm Password:</label>
+        <input type="password" name="confirm_password" id="confirm_password">
+        <span id="password-error" class="error-message"></span> <!-- Error message -->
+        <button type="submit">Update Password</button>
+    </form>
 
-        <!-- Close Button -->
-        <button type="button" id="close-edit-profile-btn">Close</button>
-    </div>
+    <!-- Close Button -->
+    <button type="button" id="close-edit-profile-btn">Close</button>
+</div>
+
 
 
 
@@ -480,21 +507,125 @@ $result_flashcards = mysqli_query($conn, $query_flashcards);
         }
     };
 
-    /*edit acccount form */
-        document.getElementById("editBtn").addEventListener("click", function() {
-        // Show the edit account form
+    //edit account function
+    document.addEventListener('DOMContentLoaded', function () {
+    const formProfilePicture = document.querySelector('#profile-picture-form');
+    const formName = document.querySelector('#name-form');
+    const formUsername = document.querySelector('#username-form');
+    const formPassword = document.querySelector('#password-form');
+
+    // Show the edit account form
+    document.getElementById("editBtn").addEventListener("click", function() {
         document.getElementById("edit-account-form").style.display = "block";
     });
 
-
+    // Close the edit account form
     document.getElementById('close-edit-profile-btn').addEventListener('click', function() {
-        // Hide the form and reset any input values if desired
         document.getElementById('edit-account-form').style.display = "none";
-        
-        // Optional: Reset form values when it's closed (if needed)
-        document.getElementById('edit-account-form').reset();
+        document.getElementById('edit-account-form').reset(); // Optional: reset form values
+        clearErrorMessages(); // Clear error messages when form is closed
     });
 
+    // Validation for Profile Picture
+    formProfilePicture.addEventListener('submit', function (e) {
+        const fileInput = document.getElementById('profile_picture');
+        const errorMessage = document.getElementById('profile-picture-error');
+        errorMessage.textContent = ""; // Reset error message
+
+        // Check if file is selected
+        if (!fileInput.files.length) {
+            e.preventDefault();
+            errorMessage.textContent = "Please select a profile picture.";
+        }
+    });
+
+    // Validation for Name
+    formName.addEventListener('submit', function (e) {
+        const nameInput = document.getElementById('name');
+        const errorMessage = document.getElementById('name-error');
+        errorMessage.textContent = ""; // Reset error message
+
+        // Check if name contains special characters
+        const nameRegex = /^[A-Za-z\s]+$/; // Only letters and spaces allowed
+        if (nameInput.value.trim() === "") {
+            e.preventDefault();
+            errorMessage.textContent = "Name cannot be empty.";
+        } else if (!nameRegex.test(nameInput.value)) {
+            e.preventDefault();
+            errorMessage.textContent = "Name must not contain special characters.";
+        }
+    });
+
+    // Validation for Username
+    formUsername.addEventListener('submit', function (e) {
+    const usernameInput = document.getElementById('username');
+    const errorMessage = document.getElementById('username-error');
+    errorMessage.textContent = ""; // Reset error message
+
+    // Prevent form submission at the start
+    e.preventDefault();
+
+    // Check if username is empty
+    if (usernameInput.value.trim() === "") {
+        errorMessage.textContent = "Username cannot be empty.";
+        return; // Stop further checks if empty
+    } else if (usernameInput.value.length < 5) {
+        errorMessage.textContent = "Username must be at least 5 characters.";
+        return; // Stop further checks if too short
+    } else {
+        // Now, check if the username is unique via PHP
+        const username = usernameInput.value.trim();
+
+        // Use the current page URL to check in the same PHP file
+        fetch(window.location.href, { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'check_username=true&username=' + encodeURIComponent(username)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.exists) {
+                errorMessage.textContent = "Username is already taken. Please choose a different one.";
+            } else {
+                // Proceed with form submission if username is unique
+                formUsername.submit();  // Only submit the form if validation is successful
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            errorMessage.textContent = "An error occurred. Please try again.";
+        });
+    }
+});
+
+
+    // Validation for Password
+    formPassword.addEventListener('submit', function (e) {
+        const passwordInput = document.getElementById('new_password');
+        const confirmPasswordInput = document.getElementById('confirm_password');
+        const errorMessage = document.getElementById('password-error');
+        errorMessage.textContent = ""; // Reset error message
+
+        // Check if passwords match
+        if (passwordInput.value !== confirmPasswordInput.value) {
+            e.preventDefault();
+            errorMessage.textContent = "Passwords do not match.";
+        } else if (passwordInput.value.length < 6) {
+            e.preventDefault();
+            errorMessage.textContent = "Password must be at least 6 characters.";
+        }
+    });
+
+    // Function to clear error messages
+    function clearErrorMessages() {
+        const errorMessages = document.querySelectorAll('.error-message');
+        errorMessages.forEach(function (errorMessage) {
+            errorMessage.textContent = ""; // Clear text content
+        });
+    }
+});
 
 
     // Function to display the logout modal
