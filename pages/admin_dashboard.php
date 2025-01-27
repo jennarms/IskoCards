@@ -285,6 +285,7 @@ $result_flashcards = mysqli_query($conn, $query_flashcards);
     </div>
 
        <!-- Edit Account Form for Admin (Initially Hidden) -->
+    <div class="modal-overlay" id="modal-overlay"></div>
 <div id="edit-account-form" class="edit-account-form" style="display: none;">
     <h3>Edit Admin Profile</h3>
 
@@ -505,16 +506,17 @@ $result_flashcards = mysqli_query($conn, $query_flashcards);
     const formUsername = document.querySelector('#username-form');
     const formPassword = document.querySelector('#password-form');
 
-    // Show the edit account form
-    document.getElementById("editBtn").addEventListener("click", function() {
-        document.getElementById("edit-account-form").style.display = "block";
+    // Show the modal and overlay
+    document.getElementById("editBtn").addEventListener("click", function () {
+    document.getElementById("modal-overlay").style.display = "block";
+    document.getElementById("edit-account-form").style.display = "block";
     });
 
-    // Close the edit account form
-    document.getElementById('close-edit-profile-btn').addEventListener('click', function() {
-        document.getElementById('edit-account-form').style.display = "none";
-        document.getElementById('edit-account-form').reset(); // Optional: reset form values
-        clearErrorMessages(); // Clear error messages when form is closed
+    // Hide the modal and overlay
+    document.getElementById("close-edit-profile-btn").addEventListener("click", function () {
+    document.getElementById("modal-overlay").style.display = "none";
+    document.getElementById("edit-account-form").style.display = "none";
+    clearErrorMessages();
     });
 
     // Validation for Profile Picture

@@ -355,6 +355,17 @@ button:hover {
   background: #d4b464; /* Slightly darker yellow for hover effect */
 }
 
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Black transparent background */
+  z-index: 998; /* Ensure it's behind the modal */
+  display: none; /* Initially hidden */
+}
+
 /* Edit Account Form Styling */
 .edit-account-form {
   background-color: #ffffff;
@@ -369,6 +380,8 @@ button:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  z-index: 999;
+  display: none;
 }
 
 /* Title Styling */
