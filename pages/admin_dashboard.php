@@ -57,8 +57,6 @@ if ($user_id) {
     $profile_picture = "../uploads/default.jpg"; // Default profile picture
 }
 
-
-
 // Fetch user count
 $query = "SELECT COUNT(*) AS user_count FROM users";
 $result = mysqli_query($conn, $query);
@@ -109,7 +107,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_flashcard_id']
     exit(); // Ensure no further output
 }
 
-
 // Fetch users data
 $query = "SELECT id, name, username, storage_used FROM users";
 $result = mysqli_query($conn, $query);
@@ -120,9 +117,7 @@ $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
 $query_flashcards = "SELECT * FROM flashcards WHERE flashcard_id LIKE '%$searchTerm%'";
 $result_flashcards = mysqli_query($conn, $query_flashcards);
 
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -331,11 +326,7 @@ $result_flashcards = mysqli_query($conn, $query_flashcards);
     <button type="button" id="close-edit-profile-btn">Close</button>
 </div>
 
-
-
-
     <script>
-
     // Real-time clock
     function updateClock() {
         const timeElement = document.getElementById('time');
