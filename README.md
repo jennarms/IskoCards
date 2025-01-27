@@ -130,6 +130,7 @@ VALUES ('IskoCards Admin', 'iskocardsadmin', 'paste-generated-hashed-here', 'adm
     - **Search Bar: Search Flashcard Question**
     - **Summary Flashcards in each Folder**
     - **Review Flashcard**
+        - **Flipping Flashcard: Question - Answer** 
         - **Validation: No Flashcards to be reviewed**
         - **Elapsed Time**
         - **Shuffle Option**
