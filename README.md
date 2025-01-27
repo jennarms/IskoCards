@@ -106,7 +106,7 @@ VALUES ('IskoCards Admin', 'iskocardsadmin', 'paste-generated-hashed-here', 'adm
     - **Storage Management Progress Bar**
         - **Validations:**
             - **In dashboard: A note that if 100% filled, will show "You have reached your storage limit!"**
-            - **In dashboard: A note that if 80% filled, will show You are at 80% of your storage limit!**
+            - **In dashboard: A note that if 80% filled, will show "You are at 80% of your storage limit!"**
             - **In flashcards management: page when there is no storage "You have reached your storage limit. Cannot add, edit, or delete flashcards." will be displayed**
 
 - **Folder Management**
