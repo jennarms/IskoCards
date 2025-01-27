@@ -369,3 +369,42 @@ body {
     display: inline-block;
     margin-right: 10px;
 }
+
+/* Responsive Styles (at the end of the existing CSS) */
+
+/* For tablets (up to 768px wide) */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px; /* Adjust font size for smaller screens */
+    }
+
+    .container {
+        padding: 10px; /* Adjust container padding */
+    }
+
+    /* Adjust button widths */
+    .edit-account-form button {
+        width: 100%; /* Make buttons full width on smaller screens */
+    }
+}
+
+/* For mobile (up to 480px wide) */
+@media (max-width: 480px) {
+    body {
+        font-size: 12px; /* Further reduce font size */
+    }
+
+    .container {
+        padding: 5px; /* Adjust container padding */
+    }
+
+    .edit-account-form button {
+        width: 100%; /* Make buttons full width */
+    }
+
+    /* Example of preventing overlapping of content */
+    .some-class {
+        width: 100%;
+        overflow-x: auto; /* Prevents overflow on mobile */
+    }
+}
